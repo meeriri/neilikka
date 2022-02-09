@@ -1,0 +1,345 @@
+* { 
+    font-family: quicksand;
+    padding: 0;
+    margin: 0;
+    color: #47910b;
+    line-height: 1.5;
+}
+
+body {
+    font-family: quicksand; /* niille selaimille, jotka ohittavat universaalimarkkerin */
+    display: flex;
+    min-height: 100vh; /* body-laatikko täyttää koko näytön, jotta footer tulee alas */
+    flex-direction: column; /* osiot (main ja footer) järjestyvät allekkain */
+    text-align: center;
+    margin: 0;
+}
+
+header {
+    width: 100%;
+    float: left;
+    background: #FFFF00;
+}
+
+.ilmoituspalkki {padding: 1px; font-weight: bold;}
+
+.kuva_tekstilla {
+    background-image: url(karviaispalkki2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.kuvan_textbox {
+    background-color: rgba(255,255,0,0.8);
+    text-align: center;
+    width: 200px;
+    padding: 15px;
+    line-height: 1;
+}
+
+.pikkuteksti {font-size:0.8em;}
+
+/* ---------------------------------------- */
+/* NAVIGOINTIPALKIN MUOTOILU ALKAA */
+#etusivulinkki {
+    font-weight: bold;
+    float: left;
+    padding: 15px 17px;
+    text-decoration: none;
+    background-color: inherit;
+    color: inherit;
+}
+
+#piilonappi {
+    position: absolute;
+    visibility: hidden;
+    z-index: -102;
+}
+
+.menun-nayttonappi, .menun-piilotusnappi {
+    font-size: 20px;
+    cursor: pointer;
+    display: block;
+    margin-top: 0;
+}
+
+.menun-nayttonappi {
+    padding: 0px 15px;
+    float: right;
+    text-align: right;
+    width: 20px;
+}
+.menun-nayttonappi i {line-height: 50px;}
+
+.menun-piilotusnappi {
+    position: absolute;
+    top: -50px; /* sijoitetaan päävalikon ylämarginaaliin eli
+        etusivulinkin viereen eli hampurilaiskuvakkeen päälle */
+    background-color: #FFFF00; /* jotta peittää hampurilaiskuvakkeen */
+    right: 0px;
+    width: 25px;
+    padding: 10px 10px 10px 15px;
+    text-align: center;
+}
+
+.paavalikko li a:hover, .ylaotsikko:hover, 
+.menun-nayttonappi:hover, .menun-piilotusnappi:hover,
+#etusivulinkki:hover {
+    background-color: #FFFF7A;
+}
+
+/* muotoillaan mobiilinäytön valikko, 
+   joka tulee esille hampurilaisikonia klikattaessa */
+.paavalikko {
+    display: none;
+    margin-top: 50px; /* jätetään tilaa, jotta etusivulinkki näkyy */
+    float: right;
+    position: absolute; /* kivempi leveällä näytöllä kuin open käyttämä "fixed" */
+    width: 100%;
+    background: #FFFF00;
+}
+
+.paavalikko li {list-style: none;} /* luettelomerkit pois valikosta*/
+
+/* muotoillaan valikon linkkejä ja pudotusvalikon yläotsikkoa */
+.paavalikko li a, .ylaotsikko {
+    text-decoration: none;
+    padding: 15px 15px;
+    text-align: left;
+    display: block;
+}
+
+/* sisennetään pudotusvalikon linkit, jotta erottuvat mobiilinäytöllä */
+.alavalikko li a {
+    text-indent: 25px;
+}
+
+/* valikko näkyviin, kun hampurilaisikonia klikataan */
+#piilonappi:checked ~ nav .paavalikko {display:block;}
+
+/* näytetään päätason valikko vaakarivillä, jos näyttö on tarpeeksi iso */
+@media screen and (min-width:620px) {
+    .paavalikko  {
+        left: auto;
+        margin-top: 0px; /* nyt ei tarvita yläpuolelle tilaa etusivulinkille */
+        right: 0px;
+        width: auto;
+        display: block;
+    }
+    .paavalikko li {
+        float: left;
+        position: relative; /* jotta alavalikko saadaan asemoitua oikein */
+    }
+    .paavalikko li a {text-align: center;}
+    .alavalikko li a {text-indent: 0px;}
+    .menun-nayttonappi, .menun-piilotusnappi {display:none;}
+    .alavalikko {
+        position: absolute; /* irrottaa alavalikon kolumniksi päävalikosta */
+        background-color: #FFFF00;
+        z-index: 20; /* alavalikko näkyy sivun sisällön päällä */
+        width: auto; /* leveys leveimmän valikkorivin mukaan */
+        white-space: nowrap ; /* pidetään elementit yksirivisinä */
+        display: none; /* piilotetaan, kun yläotsikko ei ole valittuna */
+    }
+    /* kun kursori on yläotsikon päällä, näytetään alavalikko */
+    .pudotusvalikko:hover > .alavalikko {
+        display: block;
+    }
+} /* NAVIGOINTIPALKIN MUOTOILU PÄÄTTYY */
+/* ---------------------------------------- */
+
+main {
+    flex: 1; /* footer ei tule mainin päälle */
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #FFFF00;
+    text-align: center;
+    line-height: 1;
+    margin-top: 20px;
+}
+footer > section {padding: 15px;}
+footer section::first-line, footer address::first-line {font-weight: bold;}
+
+/* footerin somekuvakkeiden muotoilu */
+footer .fa {
+    color: #FFF;
+    text-decoration: none;
+    font-size: 25px;
+    border-radius: 50%; /* pyöreät taustat */
+    padding: 5px;
+    width: 25px;
+    margin-top: 5px;
+}
+footer .fa-facebook {background-color: #3B5998;}
+footer .fa-instagram {
+    background: radial-gradient(circle farthest-corner at 35% 90%, #fec564, transparent 50%),
+        radial-gradient(circle farthest-corner at 0 140%, #fec564, transparent 50%), 
+        radial-gradient(ellipse farthest-corner at 0 -25%, #5258cf, transparent 50%), 
+        radial-gradient(ellipse farthest-corner at 20% -50%, #5258cf, transparent 50%), 
+        radial-gradient(ellipse farthest-corner at 100% 0, #893dc2, transparent 50%), 
+        radial-gradient(ellipse farthest-corner at 60% -20%, #893dc2, transparent 50%), 
+        radial-gradient(ellipse farthest-corner at 100% 100%, #d9317a, transparent), 
+        linear-gradient(#6559ca, #bc318f 30%, #e33f5f 50%, #f77638 70%, #fec66d 100%);
+}
+
+address {font-style: normal;} /* ei kursivointia yhteystietoihin */
+
+main > section {
+    margin: 20px;
+}
+
+h1 {
+    font-family: "Great Vibes";
+    font-size: 3em;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.peruskappale {
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-bottom: 20px;
+}
+
+.uutinen {
+    margin-left: 10vw;
+    margin-right: 10vw;
+    margin-bottom: 15px;
+    padding: 15px;
+    border: none;
+    background-color: #FFFF00;
+}
+
+.myymalakortti {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*border: 3px solid #47910b;*/
+    margin-bottom: 15px;
+    background-color: #FFFF00; 
+}
+.myymalakortti address {margin:2.5vw;}
+
+article .pikkuteksti {font-weight: bold;}
+
+article img {
+    float: left;
+    height:250px;
+    width:auto;
+    margin: 2.5vw;
+    display: none; /* piilotetaan kuva kapeilla näytöillä */
+}
+
+/* LOMAKKEEN MUOTOILU ALKAA */
+/* ---------------------------------------- */
+fieldset {  
+    border: 1px solid #47910b;
+    border-radius: 4px;
+    padding: 0px 5%;
+}
+
+label {
+    display: inline-block;
+    text-align: left;
+    margin-top: 15px;
+}
+.radio-label {
+    width: 40px;
+    text-align: left;
+}
+
+input[type="text"], select, textarea {
+    font-size: 1em;
+    color: #696969;
+    width: 90%;
+    border: 1px solid #47910b;
+    border-radius: 4px;
+    padding: 0px 5px;
+    outline: none; /* poistaa selaimen lisäämän sinisen kehyksen */
+   /* float: right;
+    margin-left: calc(50vw + 5px); */
+}
+textarea {height: 150px; resize: none;}
+select {background-color: #FFFF7A; width:calc(90% + 12px); padding: 2px;}
+select option {color: #696969;}
+
+/* lihavoidaan reunus, kun kenttä on valittuna */
+input[type="text"]:focus, select:focus, textarea:focus {border-width: 2px;}
+
+/* miksi nämä ei toimi??
+select option:hover {background-color:#FFFF00; color: #696969;}
+input[type="radio"]:focus {color: #47910b;} */
+
+.radionappikysymys {
+    display: inline-block;
+    width: 90%;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+}
+input[type="radio"] {width: 20px;}
+
+input[type="submit"] {
+    font-size: 1em;
+    display: block;
+    width: 100px;
+    margin: 20px auto 25px auto;
+    color: #47910b;
+    background-color: #FFFF7A;
+    border-color: #FFFF7A;
+    border-radius: 4px;
+}
+input[type="submit"]:hover {background-color: #FFFF00;}
+/* LOMAKKEEN MUOTOILU PÄÄTTYY */
+/* ---------------------------------------- */
+
+/* RESPONSIIVISUUSHOMMAT ALKAVAT TÄSTÄ (paitsi navigointipalkki ylempänä jo) */
+@media screen and (min-width:450px) {
+    /* myymäläkorttien kuvat näkyviin: */
+    .myymalakortti img {display:block;}
+    /* kiinnitetään lomakkeen kenttien leveys: */
+    label, input[type="text"], textarea, select,
+        .radionappikysymys {width: 370px;} 
+} 
+
+@media screen and (min-width:570px) {
+    .myymalakortti {margin-left: 10vw; margin-right: 10vw;}
+    fieldset {margin-left: 7%; margin-right: 7%;}
+} 
+ 
+@media screen and (min-width:730px) {
+    .myymalakortti {margin-left: auto; margin-right: auto; width: 600px;}
+    fieldset {margin-left: 13%; margin-right: 13%;}
+}
+
+@media screen and (min-width:900px) {
+    body {font-size: 1.08em;}
+    h1 {font-size: 3.15em;}
+    .kuva_tekstilla {height: 250px;}
+    .uutinen, .peruskappale {margin-left: 15vw; margin-right: 15vw;}
+    .myymalakortti {width: 650px;}
+    article img {height: 275px;}
+    fieldset {margin-left: 16%; margin-right: 16%;}
+    footer .fa {font-size: 30px; padding: 7px; width: 30px;}
+}
+@media screen and (min-width:1150px) {
+    body {font-size: 1.14em;}
+    h1 {font-size: 3.2em;}
+    .kuva_tekstilla {height: 300px;}
+    .uutinen, .peruskappale {margin-left: 20vw; margin-right: 20vw;}
+    .myymalakortti {width: 700px;}
+    article img {height: 300px;}
+    fieldset {margin-left: 20%; margin-right: 20%;}
+}
+
