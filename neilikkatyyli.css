@@ -121,7 +121,7 @@ header {
 #piilonappi:checked ~ nav .paavalikko {display:block;}
 
 /* näytetään päätason valikko vaakarivillä, jos näyttö on tarpeeksi iso */
-@media screen and (min-width:620px) {
+@media screen and (min-width:670px) {
     .paavalikko  {
         left: auto;
         margin-top: 0px; /* nyt ei tarvita yläpuolelle tilaa etusivulinkille */
