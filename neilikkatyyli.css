@@ -1,4 +1,4 @@
-* { 
+* { /* huom. universaalimarkkeri ei näy joillekin selaimille? */
     font-family: quicksand;
     padding: 0;
     margin: 0;
@@ -7,7 +7,6 @@
 }
 
 body {
-    font-family: quicksand; /* niille selaimille, jotka ohittavat universaalimarkkerin */
     display: flex;
     min-height: 100vh; /* body-laatikko täyttää koko näytön, jotta footer tulee alas */
     flex-direction: column; /* osiot (main ja footer) järjestyvät allekkain */
@@ -24,7 +23,7 @@ header {
 .ilmoituspalkki {padding: 1px; font-weight: bold;}
 
 .kuva_tekstilla {
-    background-image: url(karviaispalkki2.jpg);
+    background-image: url(./kuvat/header_karviaiset.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     height: 200px;
