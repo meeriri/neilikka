@@ -10,8 +10,11 @@
 
     <title>Puutarhaliike Neilikka</title>
 
-    <?php if (file_exists("./yhteispalikat/latauslinkit.html"))
-        {include("./yhteispalikat/latauslinkit.html");}?>
+    <?php if (file_exists("./yhteispalikat/polku.php"))
+        {include("./yhteispalikat/polku.php");}?>
+
+    <?php if (file_exists("./yhteispalikat/latauslinkit.php"))
+        {include("./yhteispalikat/latauslinkit.php");}?>
 </head>
 
 <body>
@@ -47,7 +50,7 @@
             <article class="uutinen">
                 <p class="pikkuteksti">1.9.2015</p>
                 <p>Nyt on hyvä aika aloittaa puutarhan valmistelu talven lepokautta varten.
-                    <br>Meiltä löydät kaikki <a href="./tuoteryhmat/tyokalut.html">työkalut ja tarvikkeet</a>.
+                    <br>Meiltä löydät kaikki <a href="./tuoteryhmat/tyokalut.php">työkalut ja tarvikkeet</a>.
                 </p>
             </article>
         </section>

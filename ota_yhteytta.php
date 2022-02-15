@@ -10,8 +10,11 @@
 
     <title>Ota yhteyttä &#8211; Puutarhaliike Neilikka</title>
 
-    <?php if (file_exists("./yhteispalikat/latauslinkit.html"))
-        {include("./yhteispalikat/latauslinkit.html");}?>
+    <?php if (file_exists("./yhteispalikat/polku.php"))
+        {include("./yhteispalikat/polku.php");}?>
+
+    <?php if (file_exists("./yhteispalikat/latauslinkit.php"))
+        {include("./yhteispalikat/latauslinkit.php");}?>
 </head>
 
 <body>
@@ -26,7 +29,7 @@
                 Saat meidät kiinni monin tavoin:
                 <ul>
                     <li>puhelimitse yksittäisistä 
-                        <a href="myymalat.html">myymälöistä</a></li>
+                        <a href="myymalat.php">myymälöistä</a></li>
                     <li>sähköpostitse: 
                         <a href="mailto:asiakaspalvelu@puutarhaliikeneilikka.fi">
                             asiakaspalvelu@puutarhaliikeneilikka.fi</a></li>

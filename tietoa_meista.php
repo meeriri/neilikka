@@ -10,8 +10,11 @@
 
     <title>Tietoa meistä &#8211; Puutarhaliike Neilikka</title>
 
-    <?php if (file_exists("./yhteispalikat/latauslinkit.html"))
-        {include("./yhteispalikat/latauslinkit.html");}?>
+    <?php if (file_exists("./yhteispalikat/polku.php"))
+        {include("./yhteispalikat/polku.php");}?>
+
+    <?php if (file_exists("./yhteispalikat/latauslinkit.php"))
+        {include("./yhteispalikat/latauslinkit.php");}?>
 </head>
 
 <body>
