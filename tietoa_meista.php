@@ -7,14 +7,12 @@
     <meta name="keywords" content="kuvitteellinen, puutarhaliike, Helsinki, Espoo, puutarhakauppa, puutarhatarvikkeet">
     <meta name="description" content="Koulutehtävänä tehdyt kuvitteellisen puutarhaliike Neilikan kotisivut">
     <meta name="author" content="Meeri Rivakka">
-
     <title>Tietoa meistä &#8211; Puutarhaliike Neilikka</title>
-
-    <?php if (file_exists("./yhteispalikat/polku.php"))
-        {include("./yhteispalikat/polku.php");}?>
-
-    <?php if (file_exists("./yhteispalikat/latauslinkit.php"))
-        {include("./yhteispalikat/latauslinkit.php");}?>
+    <?php
+        if (file_exists("./rutiinit/polku.php"))
+            {include("./rutiinit/polku.php");}
+        if (file_exists("./yhteispalikat/latauslinkit.php"))
+            {include("./yhteispalikat/latauslinkit.php");}?>
 </head>
 
 <body>

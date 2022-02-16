@@ -53,7 +53,7 @@
             <li><a href="<?php echo $polku?>/tietoa_meista.php">Tietoa meistä</a></li>
             <li class="header_logged_out"><a href="<?php echo $polku?>/kayttajahallinta/login.php">Kirjaudu</a></li>
             <li class="header_logged_in"><a href="<?php echo $polku?>/kayttajahallinta/profiili.php">Profiili</a></li>
-            <li><a href="ota_yhteytta.php">Ota yhteyttä</a></li>
+            <li><a href="<?php echo $polku?>/ota_yhteytta.php">Ota yhteyttä</a></li>
             <!-- menun loppuun tulee toinen label/kuvake edellä luodulle checkboxille;
             tällä kertaa kuvake on rasti Font Awesomesta (menun sulkemista varten) -->
             <label for="piilonappi" class="menun-piilotusnappi"><i class="fas fa-times"></i></label>
