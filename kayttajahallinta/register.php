@@ -33,19 +33,51 @@
             </p>
         </section>
 
-        <section><form>
+        <section>
+            <form action="" method="post">
             <fieldset>
-                <label for="sposti">Sähköpostiosoitteesi</label><br>
-                <input id="sposti" type="text" name="sposti"><br>
-                <label for="salasana">Aseta salasanasi sivustollemme</label><br>
-                <input id="salasana" type="password" name="salasana"><br>
-                <label for="salasana2">Vahvista salasanasi</label><br>
-                <input id="salasana2" type="password"><br>
-                <?php if (file_exists("../rutiinit/uutiskirjekysymys.php")) 
-                    {include("../rutiinit/uutiskirjekysymys.php");}?>
-                <input type="submit" value="Rekisteröidy">
+                <?php // Jos lomake on lähetetty, kerrotaan, onnistuiko:
+                    echo $onnistuminen;
+                    echo $sposti_kaytossa;
+                    echo $spostin_vahvistusvirhe;
+                    echo $spostin_vahvistus_ok;
+                ?>
+                <div>
+                    <label for="sposti">Sähköpostiosoitteesi</label><br>
+                    <input id="sposti" type="text" name="sposti"
+                        <?php // Jos on yritetty lähettää lomake, mutta ei onnistuttu,
+                            // täytetään kenttä aiemmalla syötteellä:
+                            if (!empty($_POST["rekisteröidy"]) and empty($onnistuminen)) 
+                                {echo naytaSyotetty("sposti");}
+                        ?>>
+                        <?php // Jos on yritetty lähettää lomake, mutta annettu sposti ei kelpaa:
+                        echo huomautaPuuttuvasta("rekisteröidy","sposti");
+                        echo $sposti_epakelpo; 
+                        ?>
+                </div>
+                <div>
+                    <label for="salasana">Aseta salasanasi sivustollemme</label><br>
+                    <input id="salasana" type="password" name="salasana"><br>
+                    <?php // Jos on yritetty lähettää lomake, mutta annettu salasana ei kelpaa:
+                        echo huomautaPuuttuvasta("rekisteröidy","salasana");
+                        echo $salasana_epakelpo; 
+                    ?>
+                </div>
+                <div>
+                    <label for="salasana2">Vahvista salasanasi</label><br>
+                    <input id="salasana2" type="password" name="salasana2"><br>
+                    <?php // Jos on yritetty lähettää lomake, mutta salasanan vahvistus ei kelpaa:
+                        echo huomautaPuuttuvasta("rekisteröidy","salasana2");
+                        echo $salasana2_epakelpo; 
+                    ?>
+                </div>
+                <?php if (file_exists("../yhteispalikat/uutiskirjekysymys.php")) 
+                    {include("../yhteispalikat/uutiskirjekysymys.php");}
+                ?>
+                <input type="submit" name="rekisteröidy" value="Rekisteröidy">
             </fieldset>
-        </form></section>
+            </form>
+        </section>
     </main>
 
     <?php if (file_exists("../yhteispalikat/footer.php")) 

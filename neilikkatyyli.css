@@ -253,7 +253,7 @@ fieldset {
 
 label {
     display: inline-block;
-    text-align: left;
+    text-align: center;
     margin-top: 15px;
     color: #696969;
 }
@@ -282,28 +282,27 @@ input[type="radio"]:focus {color: #47910b;} */
 .radionappikysymys {
     display: inline-block;
     width: 90%;
-    text-align: left;
     margin-left: auto;
     margin-right: auto;
 }
 input[type="radio"] {width: 20px;}
 .radiosetti {
-    text-align: left;
+    text-align: center;
     line-height: 1;
+    padding-left: 10px;
 }
 .radio-label {
-    width: 90px;
+    width: auto;
     margin-top: 5px;
+    text-align: left;
 }
-#peruutus-label {
-    margin-top: 5px;
-}
+#peruutus-label {margin-top: 5px;}
 
 input[type="submit"] {
     font-size: 1em;
     font-weight: bold;
     display: block;
-    width: 100px;
+    width: 120px;
     padding: 3px;
     margin: 25px auto;
     color: /*#696969; */ #47910b;
@@ -312,6 +311,21 @@ input[type="submit"] {
     border-radius: 4px;
 }
 input[type="submit"]:hover {background-color: #47910b; color: #FFFF00}
+
+.lomakevirhe {
+    width: 90%;
+    color: red;
+    background-color: #ffa985;
+    border: 1px solid #ffa985;
+    border-radius: 4px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2px 5px;
+}
+.levennettava {
+    width: 97%;
+    margin-top: 5px;
+}
 /* LOMAKKEEN MUOTOILU PÄÄTTYY */
 /* ///////////////////////////////////////////////////////////////////////// */
 
@@ -322,7 +336,7 @@ input[type="submit"]:hover {background-color: #47910b; color: #FFFF00}
     .myymalakortti img {display:block;}
     /* kiinnitetään lomakkeen kenttien leveys: */
     label, input[type="text"], input[type="password"], textarea,
-        .radionappikysymys {width: 360px;}
+        .radionappikysymys, .lomakevirhe {width: 360px;}
     select {width: 372px;}
     fieldset {padding: 10px 20px; margin: 0px auto 20px auto;}
 } 
@@ -345,7 +359,7 @@ input[type="submit"]:hover {background-color: #47910b; color: #FFFF00}
     .myymalakortti {width: 650px;}
     article img {height: 275px;}
     label, input[type="text"], input[type="password"], textarea,
-        .radionappikysymys {width: 400px;}
+        .radionappikysymys, .lomakevirhe {width: 400px;}
     select {width: 412px;}
     footer .fa {font-size: 30px; padding: 7px; width: 30px;}
 }
@@ -357,7 +371,7 @@ input[type="submit"]:hover {background-color: #47910b; color: #FFFF00}
     .myymalakortti {width: 700px;}
     article img {height: 300px;}
     label, input[type="text"], input[type="password"], textarea,
-        .radionappikysymys {width: 440px;}
+        .radionappikysymys, .lomakevirhe {width: 440px;}
     select {width: 452px;}
 }
 

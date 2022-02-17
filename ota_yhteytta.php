@@ -52,8 +52,8 @@
                 </select><br>
                 <label for="viesti">Viestisi</label><br>
                 <textarea id="viesti"></textarea><br>
-                <?php if (file_exists("./rutiinit/uutiskirjekysymys.php")) 
-                    {include("./rutiinit/uutiskirjekysymys.php");}?>
+                <?php if (file_exists("./yhteispalikat/uutiskirjekysymys.php")) 
+                    {include("./yhteispalikat/uutiskirjekysymys.php");}?>
                 <input type="submit" value="Lähetä">
             </fieldset>
         </form></section>
