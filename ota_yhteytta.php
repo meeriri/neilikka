@@ -38,7 +38,7 @@
 
         <section><form>
             <fieldset>
-                <legend>Yhteydenottolomake</legend>
+                <!--legend>Yhteydenottolomake</legend-->
                 <label for="nimi">Nimesi</label><br>
                 <input id="nimi" type="text" name="nimi"><br>
                 <label for="sposti">Sähköpostiosoitteesi</label><br>
@@ -52,14 +52,8 @@
                 </select><br>
                 <label for="viesti">Viestisi</label><br>
                 <textarea id="viesti"></textarea><br>
-                <div class="radionappikysymys">
-                    <label>Saammeko kertoa sinulle 
-                    ajankohtaisista tarjouksista uutiskirjeellämme?</label>
-                    <input id="kylla" type="radio" name="uutiskirje" value="kyllä">
-                    <label for="kylla" class="radio-label">Kyllä</label>
-                    <input id="ei" type="radio" name="uutiskirje" value="ei">
-                    <label for="ei" class="radio-label">Ei</label><br>
-                </div>
+                <?php if (file_exists("./rutiinit/uutiskirjekysymys.php")) 
+                    {include("./rutiinit/uutiskirjekysymys.php");}?>
                 <input type="submit" value="Lähetä">
             </fieldset>
         </form></section>

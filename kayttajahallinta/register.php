@@ -20,12 +20,30 @@
         {include("../yhteispalikat/header.php");}?>
 
     <main>
-        <section class="tervetuloteksti">
-            <h1>Tervetuloa</h1>
+        <section>
+            <h1>Rekisteröityminen</h1>
             <p class="peruskappale">
-                Puutarhaliike Neilikan kotisivuille!<br>
+                Rekisteröitymällä voit tallentaa tuotteitamme toivelistallesi. 
+            </p>
+            <p class="peruskappale">
+                Oletko jo rekisteröitynyt? Kirjaudu sisään 
+                <a href="<?php echo $polku?>/kayttajahallinta/login.php">tästä</a>.
             </p>
         </section>
+
+        <section><form>
+            <fieldset>
+                <label for="sposti">Sähköpostiosoitteesi</label><br>
+                <input id="sposti" type="text" name="sposti"><br>
+                <label for="salasana">Aseta salasanasi sivustollemme</label><br>
+                <input id="salasana" type="password" name="salasana"><br>
+                <label for="salasana2">Vahvista salasanasi</label><br>
+                <input id="salasana2" type="password"><br>
+                <?php if (file_exists("../rutiinit/uutiskirjekysymys.php")) 
+                    {include("../rutiinit/uutiskirjekysymys.php");}?>
+                <input type="submit" value="Rekisteröidy">
+            </fieldset>
+        </form></section>
     </main>
 
     <?php if (file_exists("../yhteispalikat/footer.php")) 
