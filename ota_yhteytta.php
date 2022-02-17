@@ -29,7 +29,7 @@
                     <li>puhelimitse yksittäisistä 
                         <a href="myymalat.php">myymälöistä</a></li>
                     <li>sähköpostitse: 
-                        <a href="mailto:asiakaspalvelu@puutarhaliikeneilikka.fi">
+                        <a href="mailto:meerin.testitili@gmail.com">
                             asiakaspalvelu@puutarhaliikeneilikka.fi</a></li>
                     <li>alla olevalla lomakkeella.</li>
                 </ul>

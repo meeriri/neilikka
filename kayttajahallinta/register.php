@@ -12,7 +12,9 @@
         if (file_exists("../rutiinit/polku.php"))
             {include("../rutiinit/polku.php");}
         if (file_exists("../yhteispalikat/latauslinkit.php"))
-            {include("../yhteispalikat/latauslinkit.php");}?>
+            {include("../yhteispalikat/latauslinkit.php");}
+        if (file_exists("../rutiinit/tietokantayhteys.php"))
+            {include("../rutiinit/tietokantayhteys.php");}?>
 </head>
 
 <body>

@@ -1,4 +1,4 @@
-* { /* huom. universaalimarkkeri ei näy joillekin selaimille? */
+* {
     font-family: quicksand;
     padding: 0;
     margin: 0;
@@ -11,7 +11,6 @@ body {
     min-height: 100vh; /* body-laatikko täyttää koko näytön, jotta footer tulee alas */
     flex-direction: column; /* osiot (main ja footer) järjestyvät allekkain */
     text-align: center;
-    margin: 0;
 }
 
 header {
@@ -42,7 +41,7 @@ header {
 
 .pikkuteksti {font-size:0.8em;}
 
-/* ---------------------------------------- */
+/* ///////////////////////////////////////////////////////////////////////// */
 /* NAVIGOINTIPALKIN MUOTOILU ALKAA */
 #etusivulinkki {
     font-weight: bold;
@@ -149,7 +148,7 @@ header {
         display: block;
     }
 } /* NAVIGOINTIPALKIN MUOTOILU PÄÄTTYY */
-/* ---------------------------------------- */
+/* ///////////////////////////////////////////////////////////////////////// */
 
 main {
     flex: 1; /* footer ei tule mainin päälle */
@@ -242,13 +241,13 @@ article img {
     display: none; /* piilotetaan kuva kapeilla näytöillä */
 }
 
+/* ///////////////////////////////////////////////////////////////////////// */
 /* LOMAKKEEN MUOTOILU ALKAA */
-/* ---------------------------------------- */
 fieldset {  
-    border: 1px solid #47910b;
-    /* background-color: #FFFF7A; */
+    border: 1px dashed #696969; /*none; /*1px solid #47910b;*/
+    background-color: #FFFF7A; 
     border-radius: 4px;
-    padding: 0px 3%;
+    padding: 3%;
     margin: 3%;
 }
 
@@ -256,35 +255,25 @@ label {
     display: inline-block;
     text-align: left;
     margin-top: 15px;
-}
-.radio-label {
-    width: 90px;
-    text-align: left;
-    line-height: 1;
-    margin-top: 10px;
-}
-#peruutus-label {
-    margin-top: 5px;
+    color: #696969;
 }
 
 input[type="text"], input[type="password"], select, textarea {
     font-size: 1em;
     color: #696969;
     width: 90%;
-    border: 1px solid #47910b;
+    border: 2px inset #FFFF7A; /* 1px solid #47910b;*/
     border-radius: 4px;
     padding: 0px 5px;
     outline: none; /* poistaa selaimen lisäämän sinisen kehyksen */
-   /* float: right;
-    margin-left: calc(50vw + 5px); */
 }
 textarea {height: 150px; resize: none;}
-select {background-color: #FFFF7A; width:calc(90% + 12px); padding: 2px;}
+select {background-color: white; /*#FFFF7A;*/ width:calc(90% + 12px); padding: 2px;}
 select option {color: #696969;}
 
 /* lihavoidaan reunus, kun kenttä on valittuna */
 input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus 
-    {border-width: 2px;}
+    {border-color: #47910b; /*border-width: 2px;*/}
 
 /* miksi nämä ei toimi??
 select option:hover {background-color:#FFFF00; color: #696969;}
@@ -298,21 +287,35 @@ input[type="radio"]:focus {color: #47910b;} */
     margin-right: auto;
 }
 input[type="radio"] {width: 20px;}
+.radiosetti {
+    text-align: left;
+    line-height: 1;
+}
+.radio-label {
+    width: 90px;
+    margin-top: 5px;
+}
+#peruutus-label {
+    margin-top: 5px;
+}
 
 input[type="submit"] {
     font-size: 1em;
+    font-weight: bold;
     display: block;
     width: 100px;
-    margin: 20px auto 25px auto;
-    color: #47910b;
-    background-color: #FFFF7A;
+    padding: 3px;
+    margin: 25px auto;
+    color: /*#696969; */ #47910b;
+    background-color: #FFFF00; /* #FFFF7A; */
     border-color: #FFFF7A;
     border-radius: 4px;
 }
-input[type="submit"]:hover {background-color: #FFFF00;}
+input[type="submit"]:hover {background-color: #47910b; color: #FFFF00}
 /* LOMAKKEEN MUOTOILU PÄÄTTYY */
-/* ---------------------------------------- */
+/* ///////////////////////////////////////////////////////////////////////// */
 
+/* ///////////////////////////////////////////////////////////////////////// */
 /* RESPONSIIVISUUSHOMMAT ALKAVAT TÄSTÄ (paitsi navigointipalkki ylempänä jo) */
 @media screen and (min-width:450px) {
     /* myymäläkorttien kuvat näkyviin: */
@@ -321,12 +324,13 @@ input[type="submit"]:hover {background-color: #FFFF00;}
     label, input[type="text"], input[type="password"], textarea,
         .radionappikysymys {width: 360px;}
     select {width: 372px;}
-    fieldset {padding: 0px 20px; margin: 0px auto 20px auto;}
+    fieldset {padding: 10px 20px; margin: 0px auto 20px auto;}
 } 
 
 @media screen and (min-width:570px) {
     .myymalakortti {margin-left: 10vw; margin-right: 10vw;}
     fieldset {padding: 20px 40px;}
+    input[type="submit"] {margin-top: 30px;}
 } 
  
 @media screen and (min-width:730px) {
