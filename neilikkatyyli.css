@@ -256,6 +256,7 @@ label {
     text-align: center;
     margin-top: 15px;
     color: #696969;
+    cursor: pointer;
 }
 
 input[type="text"], input[type="password"], select, textarea {
@@ -266,37 +267,106 @@ input[type="text"], input[type="password"], select, textarea {
     border-radius: 4px;
     padding: 0px 5px;
     outline: none; /* poistaa selaimen lisäämän sinisen kehyksen */
+    cursor: pointer;
 }
 textarea {height: 150px; resize: none;}
 select {background-color: white; /*#FFFF7A;*/ width:calc(90% + 12px); padding: 2px;}
 select option {color: #696969;}
 
-/* lihavoidaan reunus, kun kenttä on valittuna */
-input[type="text"]:focus, input[type="password"]:focus, select:focus, textarea:focus 
-    {border-color: #47910b; /*border-width: 2px;*/}
+/* erilainen reunus, kun hiiri on kentän päällä tai kenttä on valittuna */
+input[type="text"]:focus, input[type="password"]:focus, 
+input[type="text"]:hover, input[type="password"]:hover, 
+select:focus, textarea:focus, select:hover, textarea:hover {
+    border: 2px solid #FFFF00; /*border-width: 2px;*/
+}
 
 /* miksi nämä ei toimi??
 select option:hover {background-color:#FFFF00; color: #696969;}
-input[type="radio"]:focus {color: #47910b;} */
+input[type="radio"]:focus {color: #47910b;} 
+input[type="checkbox"]:focus {border: 2px solid #FFFF00;}*/
 
 .radionappikysymys {
-    display: inline-block;
     width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
-input[type="radio"] {width: 20px;}
-.radiosetti {
-    text-align: center;
-    line-height: 1;
-    padding-left: 10px;
-}
-.radio-label {
-    width: auto;
+.radionappikysymys * { /* kaikille elementeille radionappikysymyksen sisällä */ 
     margin-top: 5px;
-    text-align: left;
 }
-#peruutus-label {margin-top: 5px;}
+.radionappikysymys label {cursor: default;}
+.radionappikysymys .radionappisailio {cursor: pointer;}
+
+.radionappisailio, .checkbox_sailio { /* valmisteluita omalle radionapille ja omalle checkboxille */
+    display: block;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;    
+}
+.radionappisailio input, .checkbox_sailio input { /* piilotetaan default-radionappi ja -checkbox */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.oma_radionappi, .oma_checkbox { /* perusmuotoilut omalle radionapille ja checkboxille */
+    position: absolute;
+    height: 17px;
+    width: 17px;
+    background-color: white;
+    border: 2px inset #FFFF7A;
+}
+.oma_radionappi { /* muotoillaan oma radionappi tarkemmin */
+    left: 25%;
+    top: -5px;
+    border-radius: 50%; 
+}
+.oma_checkbox { /* muotoillaan oma checkbox tarkemmin */
+    left: 10%;
+    border-radius: 4px;
+}
+.radionappisailio:hover .oma_radionappi, 
+.checkbox_sailio:hover .oma_checkbox { /* kun kursori labelilla */
+    border: 2px solid #FFFF00;
+}
+.radionappisailio input:checked ~ .oma_radionappi { /* kun radionappi valittu */
+    background-color: #FFFF00;
+    border: 2px solid #FFFF00;
+}
+.checkbox_sailio input:checked ~ .oma_checkbox { /* kun checkbox rastittu */
+    background-color: #FFFF00;
+}
+.oma_radionappi:after { /* luodaan oma pallukka radionappiin */
+    content: "";
+    position: absolute;
+    display: none; /* ei näy, kun ei ole valittu */
+    left: 3px; /* sijainti */
+    top: 3px;
+    width: 12px; /* luodaan ensin suorakulmio */ 
+    height: 12px;
+    border-radius: 50%; /* joka pyöristetään ympyräksi */
+    background-color: #47910b;
+}
+.oma_checkbox:after { /* luodaan oma rasti */
+    content: "";
+    position: absolute;
+    display: none; /* ei näy, kun ei ole rastittu */
+    left: 5px; /* sijainti */
+    height: 10px; /* rastin pohjana on oikeastaan suorakulmio */
+    width: 5px;
+    border: solid #47910b; /* suorakulmiossa on reunat */
+    border-width: 0 3px 3px 0; /* reunoista näkyy vain kaksi */
+    -webkit-transform: rotate(45deg); /* lopuksi laatikko käännetään */
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);    
+}
+.radionappisailio input:checked ~ .oma_radionappi:after,
+.checkbox_sailio input:checked ~ .oma_checkbox:after {
+    display: block; /* näytetään pallukka tai rasti, kun valittuna */
+}
 
 input[type="submit"] {
     font-size: 1em;
@@ -305,6 +375,7 @@ input[type="submit"] {
     width: 120px;
     padding: 3px;
     margin: 25px auto;
+    cursor: pointer;
     color: /*#696969; */ #47910b;
     background-color: #FFFF00; /* #FFFF7A; */
     border-color: #FFFF7A;
@@ -321,6 +392,7 @@ input[type="submit"]:hover {background-color: #47910b; color: #FFFF00}
     margin-left: auto;
     margin-right: auto;
     padding: 2px 5px;
+    cursor: default;
 }
 .levennettava {
     width: 97%;

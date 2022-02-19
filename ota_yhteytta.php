@@ -12,7 +12,9 @@
         if (file_exists("./rutiinit/polku.php"))
             {include("./rutiinit/polku.php");}
         if (file_exists("./yhteispalikat/latauslinkit.php"))
-            {include("./yhteispalikat/latauslinkit.php");}?>
+            {include("./yhteispalikat/latauslinkit.php");}
+        if (file_exists("./rutiinit/lomakkeenkasittely.php"))
+        {include("./rutiinit/lomakkeenkasittely.php");}?>
 </head>
 
 <body>
@@ -39,21 +41,37 @@
         <section><form>
             <fieldset>
                 <!--legend>Yhteydenottolomake</legend-->
-                <label for="nimi">Nimesi</label><br>
-                <input id="nimi" type="text" name="nimi"><br>
-                <label for="sposti">Sähköpostiosoitteesi</label><br>
-                <input id="sposti" type="text" name="sposti"><br>
-                <label for="aihe">Viestin aihe</label><br>
-                <select id="aihe" name="aihe">
-                    <option value="tuotteet">Kysymys tuotteistamme</option>
-                    <option value="tilaus">Tilaus</option>
-                    <option value="yhteydenotto">Yhteydenottopyyntö</option>
-                    <option value="muu">Muu</option>
-                </select><br>
-                <label for="viesti">Viestisi</label><br>
-                <textarea id="viesti"></textarea><br>
-                <?php if (file_exists("./yhteispalikat/uutiskirjekysymys.php")) 
-                    {include("./yhteispalikat/uutiskirjekysymys.php");}?>
+                <div>
+                    <label for="nimi">Nimesi</label><br>
+                    <input id="nimi" type="text" name="nimi">
+                </div>
+                <div>
+                    <label for="sposti">Sähköpostiosoitteesi</label><br>
+                    <input id="sposti" type="text" name="sposti">
+                </div>
+                <div>
+                    <label for="aihe">Viestin aihe</label><br>
+                    <select id="aihe" name="aihe">
+                        <option value="tuotteet">Kysymys tuotteistamme</option>
+                        <option value="tilaus">Tilaus</option>
+                        <option value="yhteydenotto">Yhteydenottopyyntö</option>
+                        <option value="muu">Muu</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="viesti">Viestisi</label><br>
+                    <textarea id="viesti"></textarea>
+                </div>
+                <div>
+                    <label for="tilaus" class="checkbox_sailio">
+                        <input type="checkbox" id="tilaus" name="tilaus" value="kyllä" 
+                            <?php echo naytaRasti("tilaus","kyllä")?>>
+                        <span class="oma_checkbox"></span>
+                        Tilaan samalla Neilikan uutiskirjeen.<br>
+                        Kirjeessä kerrotaan uutuuksista ja ajankohtaisista tarjouksista.
+                        Tilauksen voi perua milloin tahansa.
+                    </label>
+                </div>
                 <input type="submit" value="Lähetä">
             </fieldset>
         </form></section>

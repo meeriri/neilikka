@@ -14,7 +14,9 @@
         if (file_exists("../yhteispalikat/latauslinkit.php"))
             {include("../yhteispalikat/latauslinkit.php");}
         if (file_exists("../rutiinit/tietokantayhteys.php"))
-            {include("../rutiinit/tietokantayhteys.php");}?>
+            {include("../rutiinit/tietokantayhteys.php");}
+        if (file_exists("../rutiinit/lomakkeenkasittely.php"))
+        {include("../rutiinit/lomakkeenkasittely.php");}?>
 </head>
 
 <body>
@@ -71,9 +73,25 @@
                         echo $salasana2_epakelpo; 
                     ?>
                 </div>
-                <?php if (file_exists("../yhteispalikat/uutiskirjekysymys.php")) 
-                    {include("../yhteispalikat/uutiskirjekysymys.php");}
-                ?>
+                <div class="radionappikysymys">
+                    <label>Saammeko kertoa sinulle uutuuksista ja ajankohtaisista 
+                        tarjouksista uutiskirjeellämme?</label><br>
+                    <label for="kylla" class="radionappisailio">
+                        <input id="kylla" type="radio" name="uutiskirje" value="kyllä"
+                            <?php echo naytaRadiovalinta("uutiskirje","kyllä")?>>
+                        <span class="oma_radionappi"></span>
+                        Kuulostaa hyvältä!
+                    </label>
+                    <label for="ei" class="radionappisailio">    
+                        <input id="ei" type="radio" name="uutiskirje" value="ei"
+                            <?php echo naytaRadiovalinta("uutiskirje","ei")?>>
+                        <span class="oma_radionappi"></span>
+                        &nbsp; Ei kiitos tällä kertaa.
+                    </label>
+                    <?php // Jos on yritetty lähettää lomake ilman uutiskirjevalintaa:
+                        echo huomautaPuuttuvasta("rekisteröidy","uutiskirje");?>
+                    <label>Voit muuttaa valintaasi milloin tahansa.</label>
+                </div>
                 <input type="submit" name="rekisteröidy" value="Rekisteröidy">
             </fieldset>
             </form>
