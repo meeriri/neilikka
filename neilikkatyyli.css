@@ -2,7 +2,7 @@
     font-family: quicksand;
     padding: 0;
     margin: 0;
-    color: #47910b;
+    color: #356b09;
     line-height: 1.5;
 }
 
@@ -16,7 +16,7 @@ body {
 header {
     width: 100%;
     float: left;
-    background: #FFFF00;
+    background: #ffff00;
 }
 
 .ilmoituspalkki {padding: 1px; font-weight: bold;}
@@ -77,7 +77,7 @@ header {
     position: absolute;
     top: -50px; /* sijoitetaan päävalikon ylämarginaaliin eli
         etusivulinkin viereen eli hampurilaiskuvakkeen päälle */
-    background-color: #FFFF00; /* jotta peittää hampurilaiskuvakkeen */
+    background-color: #ffff00; /* jotta peittää hampurilaiskuvakkeen */
     right: 0px;
     width: 25px;
     padding: 10px 10px 10px 15px;
@@ -87,7 +87,7 @@ header {
 .paavalikko li a:hover, .ylaotsikko:hover, 
 .menun-nayttonappi:hover, .menun-piilotusnappi:hover,
 #etusivulinkki:hover {
-    background-color: #FFFF7A;
+    background-color: #ffff7A;
 }
 
 /* muotoillaan mobiilinäytön valikko, 
@@ -98,7 +98,7 @@ header {
     float: right;
     position: absolute; /* kivempi leveällä näytöllä kuin open käyttämä "fixed" */
     width: 100%;
-    background: #FFFF00;
+    background: #ffff00;
 }
 
 .paavalikko li {list-style: none;} /* luettelomerkit pois valikosta*/
@@ -137,7 +137,7 @@ header {
     .menun-nayttonappi, .menun-piilotusnappi {display:none;}
     .alavalikko {
         position: absolute; /* irrottaa alavalikon kolumniksi päävalikosta */
-        background-color: #FFFF00;
+        background-color: #ffff00;
         z-index: 20; /* alavalikko näkyy sivun sisällön päällä */
         width: auto; /* leveys leveimmän valikkorivin mukaan */
         white-space: nowrap ; /* pidetään elementit yksirivisinä */
@@ -164,7 +164,7 @@ footer {
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
-    background: #FFFF00;
+    background: #ffff00;
     text-align: center;
     line-height: 1;
     margin-top: 20px;
@@ -174,7 +174,7 @@ footer section::first-line, footer address::first-line {font-weight: bold;}
 
 /* footerin somekuvakkeiden muotoilu */
 footer .fa {
-    color: #FFF;
+    color: #fff;
     text-decoration: none;
     font-size: 25px;
     border-radius: 50%; /* pyöreät taustat */
@@ -218,16 +218,16 @@ h1 {
     margin-bottom: 15px;
     padding: 15px;
     border: none;
-    background-color: #FFFF00;
+    background-color: #ffff00;
 }
 
 .myymalakortti {
     display: flex;
     justify-content: center;
     align-items: center;
-    /*border: 3px solid #47910b;*/
+    /*border: 3px solid #356B09;*/
     margin-bottom: 15px;
-    background-color: #FFFF00; 
+    background-color: #ffff00; 
 }
 .myymalakortti address {margin:2.5vw;}
 
@@ -244,9 +244,12 @@ article img {
 /* ///////////////////////////////////////////////////////////////////////// */
 /* LOMAKKEEN MUOTOILU ALKAA */
 fieldset {  
-    border: 1px dashed #696969; /*none; /*1px solid #47910b;*/
-    background-color: #FFFF7A; 
+    /*border: 1px dashed #696969; /*1px solid #356B09;*/
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),
+                0 6px 20px 0 rgba(0,0,0,0.19);
     border-radius: 4px;
+    border: none;
+    background-color: #ffff7A; 
     padding: 3%;
     margin: 3%;
 }
@@ -263,7 +266,7 @@ input[type="text"], input[type="password"], select, textarea {
     font-size: 1em;
     color: #696969;
     width: 90%;
-    border: 2px inset #FFFF7A; /* 1px solid #47910b;*/
+    border: 2px inset #ffff7A; /* 1px solid #356B09;*/
     border-radius: 4px;
     padding: 0px 5px;
     outline: none; /* poistaa selaimen lisäämän sinisen kehyksen */
@@ -277,12 +280,12 @@ select option {color: #696969;}
 input[type="text"]:focus, input[type="password"]:focus, 
 input[type="text"]:hover, input[type="password"]:hover, 
 select:focus, textarea:focus, select:hover, textarea:hover {
-    border: 2px solid #FFFF00; /*border-width: 2px;*/
+    border: 2px solid #ffff00; /*border-width: 2px;*/
 }
 
 /* miksi nämä ei toimi??
 select option:hover {background-color:#FFFF00; color: #696969;}
-input[type="radio"]:focus {color: #47910b;} 
+input[type="radio"]:focus {color: #356B09;} 
 input[type="checkbox"]:focus {border: 2px solid #FFFF00;}*/
 
 .radionappikysymys {
@@ -348,7 +351,7 @@ input[type="checkbox"]:focus {border: 2px solid #FFFF00;}*/
     width: 12px; /* luodaan ensin suorakulmio */ 
     height: 12px;
     border-radius: 50%; /* joka pyöristetään ympyräksi */
-    background-color: #47910b;
+    background-color: #356b09;
 }
 .oma_checkbox:after { /* luodaan oma rasti */
     content: "";
@@ -357,7 +360,7 @@ input[type="checkbox"]:focus {border: 2px solid #FFFF00;}*/
     left: 5px; /* sijainti */
     height: 10px; /* rastin pohjana on oikeastaan suorakulmio */
     width: 5px;
-    border: solid #47910b; /* suorakulmiossa on reunat */
+    border: solid #356b09; /* suorakulmiossa on reunat */
     border-width: 0 3px 3px 0; /* reunoista näkyy vain kaksi */
     -webkit-transform: rotate(45deg); /* lopuksi laatikko käännetään */
     -ms-transform: rotate(45deg);
@@ -376,23 +379,30 @@ input[type="submit"] {
     padding: 3px;
     margin: 25px auto;
     cursor: pointer;
-    color: /*#696969; */ #47910b;
+    color: /*#696969; */ #356b09;
     background-color: #FFFF00; /* #FFFF7A; */
-    border-color: #FFFF7A;
+    border-color: #ffff7a;
     border-radius: 4px;
 }
-input[type="submit"]:hover {background-color: #47910b; color: #FFFF00}
+input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
 
-.lomakevirhe {
+.lomakevirhe, .lomake_ok {
     width: 90%;
-    color: red;
-    background-color: #ffa985;
-    border: 1px solid #ffa985;
     border-radius: 4px;
     margin-left: auto;
     margin-right: auto;
     padding: 2px 5px;
     cursor: default;
+}
+.lomake_ok {
+    color: #356b09;
+    background-color: #b0ff94;
+    border: 1px solid #b0ff94;
+}
+.lomakevirhe {
+    color: #ad0e13;
+    background-color: #ffbf99; /*#FFC5AC*/
+    border: 1px solid #ffbf99;
 }
 .levennettava {
     width: 97%;
@@ -408,7 +418,7 @@ input[type="submit"]:hover {background-color: #47910b; color: #FFFF00}
     .myymalakortti img {display:block;}
     /* kiinnitetään lomakkeen kenttien leveys: */
     label, input[type="text"], input[type="password"], textarea,
-        .radionappikysymys, .lomakevirhe {width: 360px;}
+        .radionappikysymys, .lomakevirhe, .lomake_ok {width: 360px;}
     select {width: 372px;}
     fieldset {padding: 10px 20px; margin: 0px auto 20px auto;}
 } 
@@ -431,7 +441,7 @@ input[type="submit"]:hover {background-color: #47910b; color: #FFFF00}
     .myymalakortti {width: 650px;}
     article img {height: 275px;}
     label, input[type="text"], input[type="password"], textarea,
-        .radionappikysymys, .lomakevirhe {width: 400px;}
+        .radionappikysymys, .lomakevirhe, .lomake_ok {width: 400px;}
     select {width: 412px;}
     footer .fa {font-size: 30px; padding: 7px; width: 30px;}
 }
@@ -443,7 +453,7 @@ input[type="submit"]:hover {background-color: #47910b; color: #FFFF00}
     .myymalakortti {width: 700px;}
     article img {height: 300px;}
     label, input[type="text"], input[type="password"], textarea,
-        .radionappikysymys, .lomakevirhe {width: 440px;}
+        .radionappikysymys, .lomakevirhe, .lomake_ok {width: 440px;}
     select {width: 452px;}
 }
 

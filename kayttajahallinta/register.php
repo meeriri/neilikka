@@ -13,10 +13,8 @@
             {include("../rutiinit/polku.php");}
         if (file_exists("../yhteispalikat/latauslinkit.php"))
             {include("../yhteispalikat/latauslinkit.php");}
-        if (file_exists("../rutiinit/tietokantayhteys.php"))
-            {include("../rutiinit/tietokantayhteys.php");}
         if (file_exists("../rutiinit/lomakkeenkasittely.php"))
-        {include("../rutiinit/lomakkeenkasittely.php");}?>
+            {include("../rutiinit/lomakkeenkasittely.php");}?>
 </head>
 
 <body>
@@ -38,7 +36,9 @@
         <section>
             <form action="" method="post">
             <fieldset>
-                <?php // Jos lomake on lähetetty, kerrotaan, onnistuiko:
+                <?php
+                    // Tarkistetaan lomakkeen lähetys ja tulostetaan mahdolliset ilmoitukset:
+                    tarkista_ja_rekisteroi();
                     echo $onnistuminen;
                     echo $sposti_kaytossa;
                     echo $spostin_vahvistusvirhe;
@@ -47,29 +47,26 @@
                 <div>
                     <label for="sposti">Sähköpostiosoitteesi</label><br>
                     <input id="sposti" type="text" name="sposti"
-                        <?php // Jos on yritetty lähettää lomake, mutta ei onnistuttu,
-                            // täytetään kenttä aiemmalla syötteellä:
-                            if (!empty($_POST["rekisteröidy"]) and empty($onnistuminen)) 
-                                {echo naytaSyotetty("sposti");}
-                        ?>>
-                        <?php // Jos on yritetty lähettää lomake, mutta annettu sposti ei kelpaa:
-                        echo huomautaPuuttuvasta("rekisteröidy","sposti");
+                        <?php echo "value='".$syotteet["sposti"]."'";?>>
+                    <?php // Jos on yritetty lähettää lomake ilman kelvollista sähköpostiosoitetta:
+                        echo $sposti_puuttuu;
                         echo $sposti_epakelpo; 
-                        ?>
+                    ?>
                 </div>
                 <div>
                     <label for="salasana">Aseta salasanasi sivustollemme</label><br>
-                    <input id="salasana" type="password" name="salasana"><br>
-                    <?php // Jos on yritetty lähettää lomake, mutta annettu salasana ei kelpaa:
-                        echo huomautaPuuttuvasta("rekisteröidy","salasana");
+                    <input id="salasana" type="password" name="salasana"
+                        <?php echo "value='".$syotteet["salasana"]."'";?>><br>
+                    <?php // Jos on yritetty lähettää lomake ilman kelvollista salasanaa:
+                        echo $salasana_puuttuu;
                         echo $salasana_epakelpo; 
                     ?>
                 </div>
                 <div>
                     <label for="salasana2">Vahvista salasanasi</label><br>
                     <input id="salasana2" type="password" name="salasana2"><br>
-                    <?php // Jos on yritetty lähettää lomake, mutta salasanan vahvistus ei kelpaa:
-                        echo huomautaPuuttuvasta("rekisteröidy","salasana2");
+                    <?php // Jos on yritetty lähettää lomake, mutta salasanan vahvistus ei onnistu:
+                        echo $salasana2_puuttuu;
                         echo $salasana2_epakelpo; 
                     ?>
                 </div>
@@ -78,18 +75,18 @@
                         tarjouksista uutiskirjeellämme?</label><br>
                     <label for="kylla" class="radionappisailio">
                         <input id="kylla" type="radio" name="uutiskirje" value="kyllä"
-                            <?php echo naytaRadiovalinta("uutiskirje","kyllä")?>>
+                            <?php if ($syotteet["uutiskirje"]=="kyllä") {echo "checked='checked'";}?>>
                         <span class="oma_radionappi"></span>
                         Kuulostaa hyvältä!
                     </label>
                     <label for="ei" class="radionappisailio">    
                         <input id="ei" type="radio" name="uutiskirje" value="ei"
-                            <?php echo naytaRadiovalinta("uutiskirje","ei")?>>
+                            <?php if ($syotteet["uutiskirje"]=="ei") {echo "checked='checked'";}?>>
                         <span class="oma_radionappi"></span>
                         &nbsp; Ei kiitos tällä kertaa.
                     </label>
                     <?php // Jos on yritetty lähettää lomake ilman uutiskirjevalintaa:
-                        echo huomautaPuuttuvasta("rekisteröidy","uutiskirje");?>
+                        echo $uutiskirje_puuttuu;?>
                     <label>Voit muuttaa valintaasi milloin tahansa.</label>
                 </div>
                 <input type="submit" name="rekisteröidy" value="Rekisteröidy">

@@ -14,7 +14,7 @@
         if (file_exists("./yhteispalikat/latauslinkit.php"))
             {include("./yhteispalikat/latauslinkit.php");}
         if (file_exists("./rutiinit/lomakkeenkasittely.php"))
-        {include("./rutiinit/lomakkeenkasittely.php");}?>
+            {include("./rutiinit/lomakkeenkasittely.php");}?>
 </head>
 
 <body>

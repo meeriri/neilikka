@@ -1,11 +1,11 @@
 <?php
-    // Haetaan tunnukset (jos ei onnistu, keskeytä):
-    if (file_exists("../../tunnukset.php")) {include("../../tunnukset.php");}
-    else {
+    // Haetaan tunnukset root-kansion yläkansiosta:
+    if (file_exists(dirname(__DIR__,2)."/tunnukset.php")) 
+        {include(dirname(__DIR__,2)."/tunnukset.php");}
+    else { // Jos ei onnistu, keskeytä:
         echo "<p>Tietokantaan ei saada yhteyttä. Yritä myöhemmin uudelleen.</p>";
         exit;
     }
-
     // Funktio, joka luo yhteyden tietokantaan:
     // (ajax- ja DEBUG-jutut funktion parametrissä ja poikkeuksenkäsittelyssä
     //  olivat opettajan snippetissä, en tiedä niiden merkitystä)
@@ -16,6 +16,7 @@
         if (!isset($yhteys) or empty($yhteys)) {
             try {
                 @$yhteys = new mysqli(PALVELIN, DB_KAYTTAJA, DB_SALASANA, TIETOKANTA);
+                $yhteys->set_charset("utf8"); // merkistökoodaus ääkkösille sopivaksi
                 // Jos yhteyden muodostaminen ei onnistunut, luodaan poikkeus:
                 if ($yhteysvirhe = $yhteys->connect_error) {
                     throw new Exception("Virhe tietokantayhteydessä $palvelin.", $yhteysvirhe);
@@ -31,7 +32,6 @@
                 return false;
             }
         } // Jos ei tullut yhteysvirhettä:
-        $yhteys->set_charset("utf8"); // merkistökoodaus ääkkösille sopivaksi
         return $yhteys;
     }
 
