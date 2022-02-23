@@ -41,8 +41,8 @@
                     tarkista_ja_rekisteroi();
                     echo $onnistuminen;
                     echo $sposti_kaytossa;
-                    echo $spostin_vahvistusvirhe;
-                    echo $spostin_vahvistus_ok;
+                    echo $vahvistus_lahettamatta;
+                    echo $vahvistus_lahetetty;
                 ?>
                 <div>
                     <label for="sposti">Sähköpostiosoitteesi</label><br>
@@ -64,7 +64,8 @@
                 </div>
                 <div>
                     <label for="salasana2">Vahvista salasanasi</label><br>
-                    <input id="salasana2" type="password" name="salasana2"><br>
+                    <input id="salasana2" type="password" name="salasana2"
+                        <?php echo "value='".$syotteet["salasana2"]."'";?>><br>
                     <?php // Jos on yritetty lähettää lomake, mutta salasanan vahvistus ei onnistu:
                         echo $salasana2_puuttuu;
                         echo $salasana2_epakelpo; 

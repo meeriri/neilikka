@@ -1,15 +1,14 @@
 <?php
     // Haetaan tunnukset root-kansion yläkansiosta:
-    if (file_exists(dirname(__DIR__,2)."/tunnukset.php")) 
-        {include(dirname(__DIR__,2)."/tunnukset.php");}
-    else { // Jos ei onnistu, keskeytä:
-        echo "<p>Tietokantaan ei saada yhteyttä. Yritä myöhemmin uudelleen.</p>";
+    if (file_exists(dirname(__DIR__,2)."/tunnukset.php")) {
+        include(dirname(__DIR__,2)."/tunnukset.php");
+    } else { // Jos ei onnistu, keskeytä:
+        echo "<p class='lomakevirhe'>Tietokantaan ei saada yhteyttä. Yritä myöhemmin uudelleen.</p>";
         exit;
     }
     // Funktio, joka luo yhteyden tietokantaan:
-    // (ajax- ja DEBUG-jutut funktion parametrissä ja poikkeuksenkäsittelyssä
-    //  olivat opettajan snippetissä, en tiedä niiden merkitystä)
-    function db_yhteys($ajax = false) {
+    // (DEBUG-jutun voi jättää poiskin, kunhan toimii)
+    function db_yhteys() {
         // Tallennetaan yhteys staattiseen muuttujaan, jolloin samaa yhteyttä
         // ei tarvitse asettaa kuin kerran:
         static $yhteys;
@@ -17,18 +16,13 @@
             try {
                 @$yhteys = new mysqli(PALVELIN, DB_KAYTTAJA, DB_SALASANA, TIETOKANTA);
                 $yhteys->set_charset("utf8"); // merkistökoodaus ääkkösille sopivaksi
-                // Jos yhteyden muodostaminen ei onnistunut, luodaan poikkeus:
-                if ($yhteysvirhe = $yhteys->connect_error) {
-                    throw new Exception("Virhe tietokantayhteydessä $palvelin.", $yhteysvirhe);
-                }
             }
-            catch (Exception $voih) { // Poikkeuksen käsittely:
+            catch(Exception $voih) { // Poikkeuksen käsittely:
                 if (defined("DEBUG") and DEBUG) {
-                    $viesti = "Poikkeus " .$voih->getCode(). ": " .$voih->getMessage().
-                        " rivillä " .$voih->getLine(). ", tiedostossa " .$voih->getFile(). "<br>";
-                }
-                else {$viesti = "Virhe tietokantayhteydessä. Yritä hetken päästä uudestaan.<br>";}
-                echo ($ajax) ? json_encode($viesti) : "<p>$viesti</p>";
+                    $viesti = "Poikkeus ".$voih->getCode().": ".$voih->getMessage().
+                        " rivillä ".$voih->getLine().", tiedostossa ".$voih->getFile()."<br>";
+                } else {$viesti = "Virhe tietokantayhteydessä. Yritä hetken päästä uudestaan.<br>";}
+                echo "<p class='lomakevirhe'>$viesti</p>";
                 return false;
             }
         } // Jos ei tullut yhteysvirhettä:
