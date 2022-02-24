@@ -38,11 +38,12 @@
         $mail->SMTPSecure = 'tls'; // ssl is depracated
         $mail->SMTPAuth = true;
         $mail->Username = SP_TILI;
-        $mail->Password = SP_SALASANA; // Jos Gmail-osoitteellasi on 2-vaiheinen vahvistus päällä, aseta "App Password" ja käytä tätä salasanaa
-        /* Gmailin asetukset: mahdollisesti "vähemmän turvallisten sovellusten (less secure apps)
+        $mail->Password = SP_SALASANA; // Jos Gmail-osoitteellasi on 2-vaiheinen vahvistus päällä, aseta "App Password" ja käytä saamaasi salasanaa
+        /* Gmailin asetukset: "vähemmän turvallisten sovellusten (less secure apps)
         blokkaaminen täytyy ottaa pois päältä: https://www.google.com/settings/u/1/security/lesssecureapps
         ( ohje: https://support.google.com/accounts/answer/6010255#zippy=%2Cjos-v%C3%A4hemm%C3%A4n-turvallisten-sovellusten-k%C3%A4ytt%C3%B6oikeus-valinta-on-k%C3%A4yt%C3%B6ss%C3%A4-tilill%C3%A4si )
-        + ehkä myös clear Captcha:  https://accounts.google.com/b/0/DisplayUnlockCaptcha */
+        + ehkä myös clear Captcha:  https://accounts.google.com/b/0/DisplayUnlockCaptcha 
+        Lisäksi localhostilla täytyy virustorjuntaohjelman sähköpostisuojasta poistaa SMTP-rasti! */
         
         $mail->setFrom($emailFrom, $emailFromName);
         // $mail->addReplyTo($replyTo, $replyToName);
@@ -52,17 +53,11 @@
         // $mail->AltBody = "teksti ilman html:ää"; // tämän rivin on oltava msgHTML-rivin jälkeen, jos on käytetty edellisen rivin kommentissa olevaa tiedostohakua
         // $mail->addAttachment('images/phpmailer_mini.png'); //Attach an image file
         
-        // Gmailiin ehdotettuja asetuksia Erikiltä/Stackoverflow'sta; vaarallisia jos jäävät voimaan, kun julkaistaan!
-        /*$mail->SMTPOptions = array("tls"=>array(
-            "verify_peer"=>false;
-            "verify_peer_name"=>false;
-            "allow_self_signed"=>true;)); */
-
         if(!@$mail->send()) { // Yritetään lähetää
             $tulos = false;
-            //if (defined("DEBUG") and DEBUG) {
+            if (defined("DEBUG") and DEBUG) {
                 echo "Virhe: ".$mail->ErrorInfo;
-            //}
+            }
         } else {$tulos = true; echo "Onnistui!";}
 
         $mail->ClearAddresses(); // Koska on valittu SMTPKeepAlive, tyhjennetään edelliset vastaanottajat
@@ -71,18 +66,16 @@
         return $tulos;
     }
 
-    //Uncomment these to save your message in the 'Sent Mail' folder.
+    // Uncomment these to save your message in the 'Sent Mail' folder.
     #if (save_mail($mail)) {
     #    echo "Message saved!";
     #}
-
-
-//Section 2: IMAP
-//IMAP commands requires the PHP IMAP Extension, found at: https://php.net/manual/en/imap.setup.php
-//Function to call which uses the PHP imap_*() functions to save messages: https://php.net/manual/en/book.imap.php
-//You can use imap_getmailboxes($imapStream, '/imap/ssl', '*' ) to get a list of available folders or labels, this can
-//be useful if you are trying to get this working on a non-Gmail IMAP server.
-function save_mail($mail)
+/*Section 2: IMAP
+IMAP commands requires the PHP IMAP Extension, found at: https://php.net/manual/en/imap.setup.php
+Function to call which uses the PHP imap_*() functions to save messages: https://php.net/manual/en/book.imap.php
+You can use imap_getmailboxes($imapStream, '/imap/ssl', '*' ) to get a list of available folders or labels, this can
+be useful if you are trying to get this working on a non-Gmail IMAP server. */
+/*function save_mail($mail)
 {
     //You can change 'Sent Mail' to any other folder or tag
     $path = '{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail';
@@ -94,5 +87,5 @@ function save_mail($mail)
     imap_close($imapStream);
 
     return $result;
-}
+} */
 ?>

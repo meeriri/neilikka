@@ -333,7 +333,7 @@ input[type="checkbox"]:focus {border: 2px solid #FFFF00;}*/
     border-radius: 4px;
 }
 .keskemmalle {
-    left: 5%;
+    left: 10%;
 }
 .radionappisailio:hover .oma_radionappi, 
 .checkbox_sailio:hover .oma_checkbox { /* kun kursori labelilla */
