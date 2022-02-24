@@ -261,8 +261,7 @@ label {
     color: #696969;
     cursor: pointer;
 }
-
-label > .pikkuteksti {color: #696969;}
+label > .pikkuteksti {color: inherit;}
 
 input[type="text"], input[type="password"], select, textarea {
     font-size: 1em;
@@ -334,7 +333,7 @@ input[type="checkbox"]:focus {border: 2px solid #FFFF00;}*/
     border-radius: 4px;
 }
 .keskemmalle {
-    left: 17%;
+    left: 5%;
 }
 .radionappisailio:hover .oma_radionappi, 
 .checkbox_sailio:hover .oma_checkbox { /* kun kursori labelilla */
@@ -425,6 +424,7 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
     label, input[type="text"], input[type="password"], textarea,
         .radionappikysymys, .lomakevirhe, .lomake_ok {width: 360px;}
     select {width: 372px;}
+    .keskemmalle {left: 20%;}
     fieldset {padding: 10px 20px; margin: 0px auto 20px auto;}
 } 
 
@@ -436,6 +436,7 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
  
 @media screen and (min-width:730px) {
     .myymalakortti {margin-left: auto; margin-right: auto; width: 600px;}
+    .keskemmalle {left: 21%;}
 }
 
 @media screen and (min-width:900px) {
@@ -448,6 +449,7 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
     label, input[type="text"], input[type="password"], textarea,
         .radionappikysymys, .lomakevirhe, .lomake_ok {width: 400px;}
     select {width: 412px;}
+    .keskemmalle {left: 22%;}
     footer .fa {font-size: 30px; padding: 7px; width: 30px;}
 }
 @media screen and (min-width:1150px) {
@@ -460,5 +462,6 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
     label, input[type="text"], input[type="password"], textarea,
         .radionappikysymys, .lomakevirhe, .lomake_ok {width: 440px;}
     select {width: 452px;}
+    .keskemmalle {left: 23%;}
 }
 

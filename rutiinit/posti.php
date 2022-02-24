@@ -18,11 +18,11 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-    posti("memma82@hotmail.com","Katos vaan!","Testiviesti Neilikasta");
+    posti(SP_TILI,"Katos vaan!","Testiviesti Neilikasta");
 
     function posti($emailTo, $viesti, $otsikko) {
-        $emailFrom = "meerin.testitili@gmail.com";
-        $emailFromName = "Meerin Testitili";
+        $emailFrom = SP_TILI;
+        $emailFromName = "Neilikan testitili";
         $emailToName = "";
 
         $mail = new PHPMailer;

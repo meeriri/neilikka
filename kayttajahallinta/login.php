@@ -60,13 +60,13 @@ if(password_verify($password, $hashed_password)){
                     echo $vaara_salasana;
                 ?>
                 <div>
-                    <label for="sposti">Sähköpostiosoite</label><br>
+                    <label for="sposti">Sähköpostiosoitteesi</label><br>
                     <input id="sposti" type="text" name="sposti"
                         <?php echo "value='".$syotteet["sposti"]."'";?>>
                     <?php echo $sposti_puuttuu; // Tulostetaan mahdollinen virheilmoitus ?>
                 </div>
                 <div>
-                    <label for="salasana">Aseta salasanasi sivustollemme</label><br>
+                    <label for="salasana">Salasanasi sivustollemme</label><br>
                     <input id="salasana" type="password" name="salasana"
                         <?php echo "value='".$syotteet["salasana"]."'";?>><br>
                     <?php echo $salasana_puuttuu; ?>
@@ -75,9 +75,9 @@ if(password_verify($password, $hashed_password)){
                     <label for="muista" class="checkbox_sailio">
                         <input type="checkbox" id="muista" name="muista" value="kyllä" 
                             <?php if ($syotteet["muista"]=="kyllä") {echo "checked='checked'";}?>>
-                        <span class="oma_checkbox keskemmalle"></span>
-                        Muista minut 30 päivän ajan.<br>
-                        <span class="pikkuteksti">Jotta muistaminen on mahdollista, asennamme
+                        &emsp;&emsp;&ensp;<span class="oma_checkbox keskemmalle"></span>
+                        Muista tiedot 30 päivän ajan.<br>
+                        <span class="pikkuteksti">Jotta muistaminen olisi mahdollista, asennamme
                             koneellesi evästeen.<br>
                     </label>
 

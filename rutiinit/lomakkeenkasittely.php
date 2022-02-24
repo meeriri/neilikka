@@ -235,7 +235,13 @@
         if (!isset($_POST["kirjaudu"])) {
             $voi_kirjautua = false;
         } else { // Jos Kirjaudu-nappia on painettu:
- 
+            foreach ($syotteet as $kentta => $arvo) { // Siistitään syötteet:
+                if (isset($_POST[$kentta])) {
+                    $uusiarvo = $yhteys->real_escape_string(strip_tags(trim($_POST[$kentta])));
+                    $syotteet[$kentta] = $uusiarvo;
+                }
+            } // Sähköpostiosoitteeseen liittyvät tarkistukset:
+
         }
     }
 
