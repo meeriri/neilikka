@@ -18,8 +18,6 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
-    posti(SP_TILI,"Katos vaan!","Testiviesti Neilikasta");
-
     function posti($emailTo, $viesti, $otsikko) {
         $emailFrom = SP_TILI;
         $emailFromName = "Neilikan testitili";
@@ -30,8 +28,8 @@
         $mail->SMTPKeepAlive = true; // Jottei Gmail blokkaa, kun palvelin on jatkuvasti sinne yhteydessä?
         $mail->Mailer = "smtp"; // Tarvitaanko? Opettajan joku lisäys liittyen edelliseen riviin?
         $mail->CharSet = "UTF-8";
-        $mail->SMTPDebug = 3; // 0 = off (kun tuotannossa/julkaistu), 1: client messages, 2: +server messages, 3: +connection messages 
-        $mail->Debugoutput = "html";
+        $mail->SMTPDebug = 0; // 0 = off (kun tuotannossa/julkaistu), 1: client messages, 2: +server messages, 3: +connection messages 
+        // $mail->Debugoutput = "html";
 
         $mail->Host = "smtp.gmail.com"; // use $mail->Host = gethostbyname('smtp.gmail.com'); if your network doesn't support SMTP over IPv6
         $mail->Port = 587; // TLS only

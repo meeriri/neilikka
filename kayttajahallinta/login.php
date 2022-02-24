@@ -78,11 +78,11 @@ if(password_verify($password, $hashed_password)){
                         &emsp;&emsp;&ensp;<span class="oma_checkbox keskemmalle"></span>
                         Muista tiedot 30 päivän ajan.<br>
                         <span class="pikkuteksti">Jotta muistaminen olisi mahdollista, asennamme
-                            koneellesi evästeen.<br>
+                            koneellesi evästeen.
                     </label>
-
                 </div>
                 <input type="submit" name="kirjaudu" value="Kirjaudu">
+                <a class="pikkuteksti" href="">Unohditko salasanasi?</a><br>
             </fieldset>
             </form>
         </section>

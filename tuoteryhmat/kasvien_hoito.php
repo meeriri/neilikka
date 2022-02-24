@@ -20,10 +20,11 @@
         {include("../yhteispalikat/header.php");}?>
 
     <main>
-        <section class="tervetuloteksti">
-            <h1>Tervetuloa</h1>
+        <section>
+            <h1>Kasvien hoito</h1>
             <p class="peruskappale">
-                Puutarhaliike Neilikan kotisivuille!<br>
+                Anna meidän auttaa kasvejasi voimaan hyvin!<br>
+                (Tähän saattaa jatkossa tulla kuvallinen tuotelista.)
             </p>
         </section>
     </main>

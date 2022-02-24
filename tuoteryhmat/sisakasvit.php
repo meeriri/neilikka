@@ -20,21 +20,13 @@
         {include("../yhteispalikat/header.php");}?>
 
     <main>
-        <section class="tervetuloteksti">
-            <h1>Tervetuloa</h1>
-            <p class="peruskappale">
-                Puutarhaliike Neilikan kotisivuille!<br>
-            </p>
-        </section>
-
         <section>
-            <h1>Uutisia</h1>
-            <article>
-                <p class="pikkuteksti">2.1.2016</p>
-                <p>Hyvää uutta vuotta!<br>
-                   Uudenvuoden kunniaksi myymälöissämme upeita tarjouksia.
-                </p>
-            </article>
+            <h1>Sisäkasvit</h1>
+            <p class="peruskappale">
+                Meiltä löydät kattavan valikoiman erilaisia sisäkasveja kaunistamaan
+                kotiasi ja työpaikkaasi.<br>
+                (Tähän saattaa jatkossa tulla kuvallinen tuotelista.)
+            </p>
         </section>
     </main>
 

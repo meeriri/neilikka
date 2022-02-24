@@ -20,37 +20,12 @@
         {include("../yhteispalikat/header.php");}?>
 
     <main>
-        <section class="tervetuloteksti">
-            <h1>Tervetuloa</h1>
-            <p class="peruskappale">
-                Puutarhaliike Neilikan kotisivuille!<br>
-                Meiltä löydät sekä sisä- että ulkokasvit ja kaiken tarvitsemasi kasvien hoitoon.<br>
-                Inspiroivat myymälämme sijaitsevat Helsingissä ja Espoossa.<br>
-            </p>
-        </section>
-
         <section>
-            <h1>Uutisia</h1>
-            <article>
-                <p class="pikkuteksti">2.1.2016</p>
-                <p>Hyvää uutta vuotta!<br>
-                   Uudenvuoden kunniaksi myymälöissämme upeita tarjouksia.
-                </p>
-            </article>
-
-            <article>
-                <p class="pikkuteksti">14.12.2015</p>
-                <p>Joulukukat edullisesti meiltä.<br>
-                    Myymälöissämme myös kattava ja edullinen valikoima joulukuusia!
-                </p>
-            </article>
-
-            <article>
-                <p class="pikkuteksti">1.9.2015</p>
-                <p>Nyt on hyvä aika aloittaa puutarhan valmistelu talven lepokautta varten.
-                    <br>Meiltä löydät kaikki <a href="tyokalut.html">työkalut ja tarvikkeet</a>.
-                </p>
-            </article>
+            <h1>Ulkokasvit</h1>
+            <p class="peruskappale">
+                Meiltä löydät yli sata erilaista ulkokasvia.<br>
+                (Tähän saattaa jatkossa tulla kuvallinen tuotelista.)
+            </p>
         </section>
     </main>
 
