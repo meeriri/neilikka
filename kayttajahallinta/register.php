@@ -48,7 +48,7 @@
                     <label for="sposti">Sähköpostiosoitteesi</label><br>
                     <input id="sposti" type="text" name="sposti"
                         <?php echo "value='".$syotteet["sposti"]."'";?>>
-                    <?php // Jos on yritetty lähettää lomake ilman kelvollista sähköpostiosoitetta:
+                    <?php // Tulostetaan mahdolliset virheilmoitukset:
                         echo $sposti_puuttuu;
                         echo $sposti_epakelpo; 
                     ?>
@@ -57,7 +57,7 @@
                     <label for="salasana">Aseta salasanasi sivustollemme</label><br>
                     <input id="salasana" type="password" name="salasana"
                         <?php echo "value='".$syotteet["salasana"]."'";?>><br>
-                    <?php // Jos on yritetty lähettää lomake ilman kelvollista salasanaa:
+                    <?php
                         echo $salasana_puuttuu;
                         echo $salasana_epakelpo; 
                     ?>
@@ -66,7 +66,7 @@
                     <label for="salasana2">Vahvista salasanasi</label><br>
                     <input id="salasana2" type="password" name="salasana2"
                         <?php echo "value='".$syotteet["salasana2"]."'";?>><br>
-                    <?php // Jos on yritetty lähettää lomake, mutta salasanan vahvistus ei onnistu:
+                    <?php
                         echo $salasana2_puuttuu;
                         echo $salasana2_epakelpo; 
                     ?>
@@ -86,8 +86,7 @@
                         <span class="oma_radionappi"></span>
                         &nbsp; Ei kiitos tällä kertaa.
                     </label>
-                    <?php // Jos on yritetty lähettää lomake ilman uutiskirjevalintaa:
-                        echo $uutiskirje_puuttuu;?>
+                    <?php echo $uutiskirje_puuttuu;?>
                     <label>Voit muuttaa valintaasi milloin tahansa.</label>
                 </div>
                 <input type="submit" name="rekisteröidy" value="Rekisteröidy">

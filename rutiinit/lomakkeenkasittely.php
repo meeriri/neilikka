@@ -1,20 +1,12 @@
 <?php
     // Luodaan tietokantayhteys (viittauksessa ei saa olla http-alkua, joten $polku ei käy):
-    if (file_exists(dirname(__DIR__,1)."/rutiinit/tietokantayhteys.php")) 
-        {include(dirname(__DIR__,1)."/rutiinit/tietokantayhteys.php");}
-    if (!isset($yhteys)) {$yhteys = db_yhteys();}
-
-    // TÄMÄ POIS, KUNHAN OTA_YHTEYTTÄ ON KORJATTU SOPIVASTI.
-    // funktio, jonka avulla checkboxissa saadaan näkymään jo laitettu rasti:
-    function naytaRasti($boksisetti, $boksin_value) {
-        if (isset($_POST[$boksisetti])) {
-            // Jos setissä on monta checkboxia, boksisetti on taulukko:
-            if (is_array($_POST[$boksisetti]) and in_array($boksin_value,$_POST[$boksisetti]))
-                {return "checked='checked'";}
-            else // Jos setissä on vain yksi checkbox, ei tarvitse tutkia enempää: 
-                {return "checked='checked'";}
-        }
+    if (file_exists(dirname(__DIR__,1)."/rutiinit/tietokantayhteys.php")) {
+        include(dirname(__DIR__,1)."/rutiinit/tietokantayhteys.php");
+        if (!isset($yhteys)) {$yhteys = db_yhteys();}
     }
+    // Haetaan PHPMaileriin perustuva posti.php:
+    if (file_exists(dirname(__DIR__,1)."/rutiinit/posti.php"))
+        {include(dirname(__DIR__,1)."/rutiinit/posti.php");}
 
     // Funktio, joka lisää (virhe)tekstin ympärille <p class='...'>-tägit:
     function lomaketagit($teksti, $lisaluokka = "") {
@@ -65,7 +57,6 @@
                         $sposti_kaytossa .= "<br>Tili täytyy aktivoida, jotta voit käyttää sitä.
                             <br>Aktivointilinkki on lähetetty sähköpostiosoitteeseen.";
                     } else { // Jos tili on aktivoitu:
-                        global $polku;
                         $sposti_kaytossa .= "<br>Siirry kirjautumiseen
                             <a href=$polku.'kayttajahallinta/login.php'>tästä</a>.";
                     }
@@ -116,20 +107,17 @@
         }
         // Jos syötteet ovat kunnossa:
         if ($voi_lahettaa) {
-            // Hässätään salasana ja muunnetaan uutiskirjevalinta sopivaan muotoon:
+            // Sekoitetaan salasana:
             $salasana_hash = password_hash($syotteet["salasana"], PASSWORD_BCRYPT);
-            if ($syotteet["uutiskirje"] == "kyllä") {$uutistilaus = "1";}
-            else {$uutistilaus = "0";}
-
+            
             // Valmistellaan käyttäjän lisäys tietokannan user-tauluun:
-            $lisayslauseke = $yhteys->prepare("INSERT INTO user (email, passhash, activated,
-                newsletter) VALUES (?, ?, '0', ?)");
-            $lisayslauseke->bind_param("sss", $syotteet["sposti"], $salasana_hash, $uutistilaus);
+            $lisayslauseke = $yhteys->prepare("INSERT INTO user (email, passhash, activated)
+                VALUES (?, ?, '0')");
+            $lisayslauseke->bind_param("ss", $syotteet["sposti"], $salasana_hash);
             try { // Yritetään lisäystä:
                 $lisayslauseke->execute();
                 $uusi_id = $lisayslauseke->insert_id;
-            } // Jos käyttäjän lisäys ei onnistunut:
-            catch(Exception $voivoi) {
+            } catch(Exception $voivoi) { // Jos käyttäjän lisäys ei onnistunut:
                 $vahvistus_lahettamatta = lomaketagit("Valitettavasti tietokantayhteydessä
                     tapahtui virhe. Yritä hetken kuluttua uudelleen.");
                 if (defined("DEBUG") and DEBUG) {
@@ -140,6 +128,31 @@
         }
         // Jos käyttäjän lisäys onnistui:
         if (isset($uusi_id)) {
+            // Lisätään sähköpostiosoite sähköpostilistalle, jos valinta on tehty:
+            if ($syotteet["uutiskirje"] == "kyllä") {
+                // Tarkistetaan ensin, onko osoite jo listalla:
+                $tarkistuslauseke = $yhteys->prepare("SELECT * FROM email_list WHERE email = ?");
+                $tarkistuslauseke->bind_param("s",$syotteet["sposti"]);
+                $tarkistuslauseke->execute();
+                $tulos = $tarkistuslauseke->get_result();
+                if ($tulos->num_rows == 0) { // Jos osoite ei ole listalla:
+                    $uutislauseke = $yhteys->prepare("INSERT INTO email_list (email) VALUES (?)");
+                    $uutislauseke->bind_param("s", $syotteet["sposti"]);
+                    try {$uutislauseke->execute();} // Yritetään lisäystä
+                    catch(Exception $voivoi) { // Jos listalle lisäys ei onnistunut:
+                        $vahvistus_lahettamatta = "Valitettavasti liittyminen
+                            sähköpostilistalle ei onnistunut. Yritä listalle liittymistä
+                            uudelleen <a href='$polku/ota_yhteytta.php'>tätä kautta</a>.";
+                        ///// HUOM TÄHÄN MYÖS MAHDOLLISUUS SUORAAN YRITTÄÄ UUDESTAAN
+                        ///// HUOM UUTISTILAUKSEN VAHVISTUSSÄHKÖPOSTI MYÖS LÄHETETTÄVÄ
+                        $vahvistus_lahettamatta = lomaketagit($vahvistus_lahettamatta);
+                        if (defined("DEBUG") and DEBUG) {
+                            echo "Poikkeus: ".$voivoi->getCode().": ".$voivoi->getMessage().
+                            "<br>rivi: ".$voivoi->getLine().", tiedosto: ".$voivoi->getFile()."<br>";
+                        }
+                    }
+                }
+            }
             // Luodaan satunnainen poletti (token) aktivointia varten:
             $poletti = bin2hex(random_bytes(12));
             // Lasketaan poletin vanhenemishetki (900 sek = vartti aikaa aktivoida):
@@ -151,21 +164,22 @@
             $polettilauseke->bind_param("sss", $uusi_id, $poletti, $vanhenee);
             try {$polettilauseke->execute();} // Yritetään lisäystä
             catch(Exception $oijoi) { // Jos lisäys ei onnistunut:
-                $vahvistus_lahettamatta = lomaketagit("Sinulle on nyt luotu
+                $vahvistus_lahettamatta = "Sinulle on nyt luotu
                     käyttäjätili. Valitettavasti vahvistussähköpostin lähettäminen ei
                     onnistunut &#8211; jotta voit käyttää tiliäsi, jätä meille 
-                    <a href='$polku/ota_yhteytta.php'>yhteydenottopyyntö</a>.");
+                    <a href='$polku/ota_yhteytta.php'>yhteydenottopyyntö</a>.";
                     // paina <a href=''>tästä</a>, niin yritämme uudestaan!</p>";
-                    // JOS TÄHÄN TEKIS NÄKYMÄTTÖMÄN FORMIN JA POSTILLA SEN LÄHETTÄIS
+                    // HUOM JOS TÄHÄN TEKIS NÄKYMÄTTÖMÄN FORMIN JA POSTILLA SEN LÄHETTÄIS
                     // --> KOODIIN RIVILLE 137: OR IF ISSET POST[VAHVISTA]
+                $vahvistus_lahettamatta = lomaketagit($vahvistus_lahettamatta);
                 if (defined("DEBUG") and DEBUG) {
                     echo "Poikkeus: ".$voivoi->getCode().": ".$voivoi->getMessage().
                     "<br>rivi: ".$voivoi->getLine().", tiedosto: ".$voivoi->getFile()."<br>";
+                }
                 // Tyhjennetään syötteet, jotta eivät enää näy lomakkeella:
                 foreach ($syotteet as $kentta => $arvo) {$syotteet[$kentta] = "";}
-                }
             }
-            /* JOS EDELLISEEN TEKEE TON FORM-JUTUN JA HALUAA VASTAAVAN TÄHÄN KOHTAAN
+            /* HUOM JOS EDELLISEEN TEKEE TON FORM-JUTUN JA HALUAA VASTAAVAN TÄHÄN KOHTAAN
             (VIRHEILMOITUKSEEN: SÄHKÖPOSTIN LÄHETYS EI ONNISTU), TÄMÄ IF-LAUSE PYKÄLÄÄ ULOMMAS JA
             JOTAIN EHTOJA, JOILLA SUORITUS SIIRTYY TÄHÄN KOHTAAN SILLOIN, JOS EDELLINEN VAIHE 
             ON ONNISTUNUT TAI TULLAAN SÄHKÖPOSTIN-LÄHETYS-EI-ONNISTUNUT-LINKISTÄ: */
@@ -183,18 +197,45 @@
                 $otsikko = "Neilikan toivelistasi on enää yhden klikkauksen päässä!";
                 $posti_onnistui = posti($syotteet["sposti"], $viesti, $otsikko);
                 if (!$posti_onnistui) {
-                    $vahvistus_lahettamatta = lomaketagit("Valitettavasti vahvistussähköpostin
-                        lähettäminen ei onnistunut. Jätä meille
-                        <a href='$polku/ota_yhteytta.php'>yhteydenottopyyntö</a>, niin hoidamme asian.");
+                    $vahvistus_lahettamatta = "Sinulle on nyt luotu käyttäjätili. 
+                        Valitettavasti vahvistussähköpostin lähettäminen ei onnistunut.
+                        Jotta pääset käyttämään tiliäsi, jätä meille
+                        <a href='$polku/ota_yhteytta.php'>yhteydenottopyyntö</a>, niin hoidamme asian.";
+                    $vahvistus_lahettamatta = lomaketagit($vahvistus_lahettamatta);
                 } else {
-                    $onnistuminen = "<p class='lomake_ok'>Kiitos rekisteröitymisestä!<br>
+                    $onnistuminen = "<p class='lomake_ok'>Hienoa, melkein valmista!<br>
                         Aktivoi vielä tilisi klikkaamalla linkkiä, jonka lähetimme juuri
                         sähköpostiisi. Linkki vanhenee 15 minuutin päästä.</p>";
-                    //////// LISÄKSI LINKKI, JOSTA AKTIVOINTISÄHKÖPOSTIN VOI LÄHETTÄÄ UUDESTAAN!!
+                    //////// HUOM LISÄKSI ETKÖ SAANUT -LINKKI, JOSTA AKTIVOINTISÄHKÖPOSTIN VOI 
+                    // LÄHETTÄÄ UUDESTAAN!!
                 }
                 // Tyhjennetään syötteet, jotta eivät enää näy lomakkeella:
                 foreach ($syotteet as $kentta => $arvo) {$syotteet[$kentta] = "";}
             }
+        }
+    }
+
+    // Funktio, joka tarkistaa kirjautumislomakkeella annetut syötteet
+    // ja jos ne ovat ok, kirjaa käyttäjän sisään:
+    function tarkista_ja_kirjaudu() {
+        global $yhteys, $polku; // tietokantayhteys ja juurikansion polku näkyväksi
+
+        // Luodaan virheviestit (global, jotta näkyvät funktion ulkopuolelle):
+        global $tilia_ei_ole, $tili_vahvistamatta, $vaara_salasana;
+        global $sposti_puuttuu, $salasana_puuttuu;
+
+        // Luodaan taulukko käyttäjän antamia syötteitä varten:
+        global $syotteet;
+        $syotteet = array("sposti"=>"","salasana"=>"","muista"=>"");
+        
+        // Luodaan muuttuja, jolla seurataan, voiko kirjautumisen suorittaa:
+        $voi_kirjautua = true;
+
+        // Jos ei ole painettu Kirjaudu-nappia, ei voi kirjautua:
+        if (!isset($_POST["kirjaudu"])) {
+            $voi_kirjautua = false;
+        } else { // Jos Kirjaudu-nappia on painettu:
+ 
         }
     }
 

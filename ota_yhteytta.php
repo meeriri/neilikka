@@ -1,3 +1,17 @@
+<?php
+    // TÄMÄ POIS, KUNHAN LOMAKKEENKÄSITTELY ON KORJATTU SOPIVASTI.
+    // funktio, jonka avulla checkboxissa saadaan näkymään jo laitettu rasti:
+    function naytaRasti($boksisetti, $boksin_value) {
+        if (isset($_POST[$boksisetti])) {
+            // Jos setissä on monta checkboxia, boksisetti on taulukko:
+            if (is_array($_POST[$boksisetti]) and in_array($boksin_value,$_POST[$boksisetti]))
+                {return "checked='checked'";}
+            else // Jos setissä on vain yksi checkbox, ei tarvitse tutkia enempää: 
+                {return "checked='checked'";}
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang=fi>
 

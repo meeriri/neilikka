@@ -1,4 +1,4 @@
-/* Kirjautumisen session-käsittely Slackista*/
+<?php /* Kirjautumisen session-käsittely Slackista
 ..
 if(password_verify($password, $hashed_password)){
 // Password is correct, so start a new session
@@ -14,7 +14,8 @@ if(password_verify($password, $hashed_password)){
    header("location: $next_page");
    exit;
    }
- header("location: welcome.php");
+ header("location: welcome.php"); */
+?>
 
  <!DOCTYPE html>
 <html lang=fi>
@@ -30,7 +31,9 @@ if(password_verify($password, $hashed_password)){
         if (file_exists("../rutiinit/polku.php"))
             {include("../rutiinit/polku.php");}
         if (file_exists("../yhteispalikat/latauslinkit.php"))
-            {include("../yhteispalikat/latauslinkit.php");}?>
+            {include("../yhteispalikat/latauslinkit.php");}
+        if (file_exists("../rutiinit/lomakkeenkasittely.php"))
+            {include("../rutiinit/lomakkeenkasittely.php");}?>
 </head>
 
 <body>
@@ -38,11 +41,50 @@ if(password_verify($password, $hashed_password)){
         {include("../yhteispalikat/header.php");}?>
 
     <main>
-        <section class="tervetuloteksti">
-            <h1>Tervetuloa</h1>
+        <section>
+            <h1>Kirjautuminen</h1>
             <p class="peruskappale">
-                Puutarhaliike Neilikan kotisivuille!<br>
+                Jos et ole vielä rekisteröitynyt, pääset tekemään sen 
+                <a href="<?php echo $polku?>/kayttajahallinta/register.php">tästä</a>.
             </p>
+        </section>
+
+        <section>
+            <form action="" method="post">
+            <fieldset>
+                <?php
+                    // Tarkistetaan lomakkeen lähetys ja tulostetaan mahdolliset virheilmoitukset:
+                    tarkista_ja_kirjaudu();
+                    echo $tilia_ei_ole;
+                    echo $tili_vahvistamatta;
+                    echo $vaara_salasana;
+                ?>
+                <div>
+                    <label for="sposti">Sähköpostiosoite</label><br>
+                    <input id="sposti" type="text" name="sposti"
+                        <?php echo "value='".$syotteet["sposti"]."'";?>>
+                    <?php echo $sposti_puuttuu; // Tulostetaan mahdollinen virheilmoitus ?>
+                </div>
+                <div>
+                    <label for="salasana">Aseta salasanasi sivustollemme</label><br>
+                    <input id="salasana" type="password" name="salasana"
+                        <?php echo "value='".$syotteet["salasana"]."'";?>><br>
+                    <?php echo $salasana_puuttuu; ?>
+                </div>
+                <div>
+                    <label for="muista" class="checkbox_sailio">
+                        <input type="checkbox" id="muista" name="muista" value="kyllä" 
+                            <?php if ($syotteet["muista"]=="kyllä") {echo "checked='checked'";}?>>
+                        <span class="oma_checkbox keskemmalle"></span>
+                        Muista minut 30 päivän ajan.<br>
+                        <span class="pikkuteksti">Jotta muistaminen on mahdollista, asennamme
+                            koneellesi evästeen.<br>
+                    </label>
+
+                </div>
+                <input type="submit" name="kirjaudu" value="Kirjaudu">
+            </fieldset>
+            </form>
         </section>
     </main>
 

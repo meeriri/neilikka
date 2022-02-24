@@ -262,6 +262,8 @@ label {
     cursor: pointer;
 }
 
+label > .pikkuteksti {color: #696969;}
+
 input[type="text"], input[type="password"], select, textarea {
     font-size: 1em;
     color: #696969;
@@ -330,6 +332,9 @@ input[type="checkbox"]:focus {border: 2px solid #FFFF00;}*/
 .oma_checkbox { /* muotoillaan oma checkbox tarkemmin */
     left: 10%;
     border-radius: 4px;
+}
+.keskemmalle {
+    left: 17%;
 }
 .radionappisailio:hover .oma_radionappi, 
 .checkbox_sailio:hover .oma_checkbox { /* kun kursori labelilla */
