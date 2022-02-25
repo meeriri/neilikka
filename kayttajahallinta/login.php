@@ -1,23 +1,4 @@
-<?php /* Kirjautumisen session-käsittely Slackista
-..
-if(password_verify($password, $hashed_password)){
-// Password is correct, so start a new session
- if (!session_id()) session_start();
- // Store data in session variables
- $_SESSION["loggedin"] = true;
- // $_SESSION["id"] = $id;
- // $_SESSION["username"] = $username;                            
- // Redirect user to welcome page
- if (isset($_SESSION['next_page']){
-   $next_page = $_SESSION['next_page'];
-   unset($_SESSION['next_page']);
-   header("location: $next_page");
-   exit;
-   }
- header("location: welcome.php"); */
-?>
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang=fi>
 
 <head>
@@ -33,7 +14,10 @@ if(password_verify($password, $hashed_password)){
         if (file_exists("../yhteispalikat/latauslinkit.php"))
             {include("../yhteispalikat/latauslinkit.php");}
         if (file_exists("../rutiinit/lomakkeenkasittely.php"))
-            {include("../rutiinit/lomakkeenkasittely.php");}?>
+            {include("../rutiinit/lomakkeenkasittely.php");}
+        // Tarkistetaan, onko lomake lähetetty, ja muodostetaan mahdolliset virheilmoitukset
+        // (tehdään tämä ennen kuin sivulle ladataan mitään, jotta tarvittaessa voidaan uudelleenohjata): 
+        tarkista_ja_kirjaudu();?>
 </head>
 
 <body>
@@ -53,23 +37,22 @@ if(password_verify($password, $hashed_password)){
             <form action="" method="post">
             <fieldset>
                 <?php
-                    // Tarkistetaan lomakkeen lähetys ja tulostetaan mahdolliset virheilmoitukset:
-                    tarkista_ja_kirjaudu();
+                    // Tulostetaan mahdolliset virheilmoitukset:
                     echo $tilia_ei_ole;
-                    echo $tili_vahvistamatta;
+                    echo $sposti_vahvistamatta;
                     echo $vaara_salasana;
                 ?>
                 <div>
                     <label for="sposti">Sähköpostiosoitteesi</label><br>
                     <input id="sposti" type="text" name="sposti"
                         <?php echo "value='".$syotteet["sposti"]."'";?>>
-                    <?php echo $sposti_puuttuu; // Tulostetaan mahdollinen virheilmoitus ?>
+                    <?php echo $sposti_ei_kelpaa; // Tulostetaan mahdollinen virheilmoitus ?>
                 </div>
                 <div>
                     <label for="salasana">Salasanasi sivustollemme</label><br>
                     <input id="salasana" type="password" name="salasana"
                         <?php echo "value='".$syotteet["salasana"]."'";?>><br>
-                    <?php echo $salasana_puuttuu; ?>
+                    <?php echo $salasana_puuttuu;?>
                 </div>
                 <div>
                     <label for="muista" class="checkbox_sailio">
@@ -78,11 +61,12 @@ if(password_verify($password, $hashed_password)){
                         &emsp;&emsp;&ensp;<span class="oma_checkbox keskemmalle"></span>
                         Muista tiedot 30 päivän ajan.<br>
                         <span class="pikkuteksti">Jotta muistaminen olisi mahdollista, asennamme
-                            koneellesi evästeen.
+                            koneellesi evästeen.</span>
                     </label>
                 </div>
                 <input type="submit" name="kirjaudu" value="Kirjaudu">
-                <a class="pikkuteksti" href="">Unohditko salasanasi?</a><br>
+                <a class="pikkuteksti" href="<?php echo $polku?>/kayttajahallinta/forgot_password.php">
+                    Unohditko salasanasi?</a><br>
             </fieldset>
             </form>
         </section>

@@ -12,7 +12,7 @@
     <meta name="keywords" content="profiilisivu">
     <meta name="description" content="Koulutehtävänä tehdyt kuvitteellisen puutarhaliike Neilikan kotisivut">
     <meta name="author" content="Meeri Rivakka">
-    <title>Profiilisi &#8211; Puutarhaliike Neilikka</title>
+    <title>Oma sivusi &#8211; Puutarhaliike Neilikka</title>
     <?php
         if (file_exists("../rutiinit/polku.php"))
             {include("../rutiinit/polku.php");}
@@ -25,10 +25,11 @@
         {include("../yhteispalikat/header.php");}?>
 
     <main>
-        <section class="tervetuloteksti">
-            <h1>Tervetuloa</h1>
+        <section>
+            <h1>Oma sivusi</h1>
             <p class="peruskappale">
-                Puutarhaliike Neilikan kotisivuille!<br>
+                Täältä näet ja päivität omat tietosi Neilikan käyttäjärekisterissä.<br>
+                Omalta sivultasi löytyy myös toivelistasi.
             </p>
         </section>
     </main>

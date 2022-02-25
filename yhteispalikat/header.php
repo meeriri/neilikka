@@ -1,13 +1,13 @@
 <header>
     <?php
-        // Yläpalkin ja navin elementtien näkyvyys, jos käyttäjä ei ole kirjautuneena:
-        if (!isset($_SESSION['ktunnus'])) {
+        // Yläpalkin ja navin elementtien näkyvyys, jos käyttäjä on kirjautunut:
+        if (isset($_SESSION["loggedin"]) and $_SESSION["loggedin"]) {
+            echo "<style>.header_logged_out {display:none;}
+                    .header_logged_in {display:block;}</style>";
+        }
+        else { // Näkyvyys toisin päin, jos käyttäjä ei ole kirjautuneena:
             echo "<style>.header_logged_out {display:block;}
                     .header_logged_in {display:none;}</style>";
-        }
-        else { // Näkyvyys toisin päin, jos käyttäjä on kirjautunut:
-            echo "<style>.header_logged_out {display:none;}
-                    #.header_logged_in {display:block;}</style>";
         }
     ?>
 
@@ -18,7 +18,7 @@
             Nappi ohjaa kirjautumissivulle (joka puolestaan osaa huomioida, 
             jos käyttäjä on tullut sivulle uloskirjautumisen vuoksi). -->
         <form class="header_logged_in" action="<?php echo $polku?>/kayttajahallinta/login.php" method="post">
-            <?php echo "Olet kirjautuneena käyttäjänä: ".($_SESSION["ktunnus"] ?? "");?>
+            <?php echo "Olet kirjautuneena käyttäjänä: ".($_SESSION["sposti"] ?? "");?>
             <input type="submit" name="ulos" value="Kirjaudu ulos">
         </form>
     </div>
@@ -52,7 +52,7 @@
             <li><a href="<?php echo $polku?>/myymalat.php">Myymälät</a></li>
             <li><a href="<?php echo $polku?>/tietoa_meista.php">Tietoa meistä</a></li>
             <li class="header_logged_out"><a href="<?php echo $polku?>/kayttajahallinta/login.php">Kirjaudu</a></li>
-            <li class="header_logged_in"><a href="<?php echo $polku?>/kayttajahallinta/profiili.php">Profiili</a></li>
+            <li class="header_logged_in"><a href="<?php echo $polku?>/kayttajahallinta/omasivu.php">Oma sivusi</a></li>
             <li><a href="<?php echo $polku?>/ota_yhteytta.php">Ota yhteyttä</a></li>
             <!-- menun loppuun tulee toinen label/kuvake edellä luodulle checkboxille;
             tällä kertaa kuvake on rasti Font Awesomesta (menun sulkemista varten) -->

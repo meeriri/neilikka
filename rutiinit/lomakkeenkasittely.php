@@ -5,15 +5,61 @@
         if (!isset($yhteys)) {$yhteys = db_yhteys();}
     }
     // Haetaan PHPMaileriin perustuva posti.php:
-    if (file_exists(dirname(__DIR__,1)."/rutiinit/posti.php"))
-        {include(dirname(__DIR__,1)."/rutiinit/posti.php");}
+    if (file_exists(dirname(__DIR__,1)."/rutiinit/posti.php")) {include(dirname(__DIR__,1)."/rutiinit/posti.php");}
 
-    // Funktio, joka lisää (virhe)tekstin ympärille <p class='...'>-tägit:
+    // Apufunktio, joka lisää (virhe)tekstin ympärille <p class='...'>-tägit:
     function lomaketagit($teksti, $lisaluokka = "") {
         return "<p class='lomakevirhe $lisaluokka'>$teksti</p>";
     }
 
-    // Funktio, joka tarkistaa rekisteröintilomakkeella annetut syötteet
+    // Apufunktio, joka etsii annettua sähköpostiosoitetta annetusta tietokannan taulusta
+    // ja palauttaa hakutuloksen:
+    function hae_kayttaja($sposti, $taulu) {
+        global $yhteys; // yhteys näkyväksi
+        $tarkistuslauseke = $yhteys->prepare("SELECT * FROM ".$taulu." WHERE email = ?");
+        $tarkistuslauseke->bind_param("s",$sposti);
+        $tarkistuslauseke->execute();
+        return $tarkistuslauseke->get_result();
+    }
+
+    // Apufunktio, joka tarkistaa annettuun sähköpostiosoitteeseen liitetyn käyttäjätilin
+    // statuksen: aktivoitu, aktivoimatta tai tilia_ei_ole. 
+    function tilin_status($sposti) {
+        $hakutulos = hae_kayttaja($sposti, "user");
+        if ($hakutulos->num_rows > 0) { // Jos haulla löytyi käyttäjä, tutkitaan tulokset:
+            if ($hakutulos->fetch_assoc()["activated"]==="0") { // Tili aktivoimatta
+                return "aktivoimatta";
+            } else {return "aktivoitu";} // Tili aktivoitu
+        } else {return "tilia_ei_ole";} // Haku ei löytänyt käyttäjää
+    }
+
+    // Apufunktio, joka lisää annetun sähköpostiosoitteen email_list-tauluun (sähköpostilistalle),
+    // ellei osoite jo ole siellä. Palauttaa true, jos funtion suorituksen jälkeen osoite on
+    // listalla; false, jos näin ei ole.
+    function lisaa_listalle($sposti) {
+        global $yhteys; // yhteys näkyväksi
+        // Tarkistetaan, onko osoite jo listalla:
+        $hakutulos = hae_kayttaja($sposti, "email_list");
+/*        $tarkistuslauseke = $yhteys->prepare("SELECT * FROM email_list WHERE email = ?");
+        $tarkistuslauseke->bind_param("s",$sposti);
+        $tarkistuslauseke->execute();
+        $hakutulos = $tarkistuslauseke->get_result(); */
+        if ($hakutulos->num_rows == 0) { // Jos osoite ei ole listalla, yritetään lisäystä:
+            $uutislauseke = $yhteys->prepare("INSERT INTO email_list (email) VALUES (?)");
+            $uutislauseke->bind_param("s", $sposti);
+            try {$uutislauseke->execute();}
+            catch(Exception $voivoi) { // Jos listalle lisäys ei onnistunut:
+                if (defined("DEBUG") and DEBUG) {
+                    echo "Poikkeus: ".$voivoi->getCode().": ".$voivoi->getMessage().
+                    "<br>rivi: ".$voivoi->getLine().", tiedosto: ".$voivoi->getFile()."<br>";
+                }
+                return false; 
+            }
+        }
+        return true;
+    }
+    
+    // REKISTERÖINTILOMAKKEEN pääfunktio, joka tarkistaa rekisteröintilomakkeella annetut syötteet
     // ja jos ne ovat ok, rekisteröi käyttäjän:
     function tarkista_ja_rekisteroi() {
         global $yhteys, $polku; // tietokantayhteys ja juurikansion polku näkyväksi
@@ -40,31 +86,27 @@
                     $syotteet[$kentta] = $uusiarvo;
                 }
             } // Sähköpostiosoitteeseen liittyvät tarkistukset:
-            if (!empty($syotteet["sposti"])) {
-                // Jos sposti ei ole tyhjä, tarkistetaan, onko sillä jo rekisteröity tili:
-                $tarkistuslauseke = $yhteys->prepare("SELECT * FROM user WHERE email = ?");
-                $tarkistuslauseke->bind_param("s",$syotteet["sposti"]);
-                $tarkistuslauseke->execute();
-                $tulos = $tarkistuslauseke->get_result();
-                if ($tulos->num_rows > 0) { // Jos osoitteella löytyi käyttäjätili:
-                    $voi_lahettaa = false;
+            if (!empty($syotteet["sposti"])) { // Jos sposti-kenttä on täytetty:
+                $tila = tilin_status($syotteet["sposti"]);
+                if ($tila != "tilia_ei_ole") { // Jos osoitteella on olemassa tili:
+                    $voi_lahettaa = false;                    
                     $sposti_kaytossa = "Sähköpostiosoitteella ".$syotteet["sposti"].
                         " on jo olemassa käyttäjätili.";
                     // Tyhjennetään syötteet, jotta samat tiedot eivät täyty lomakkeelle:
                     foreach ($syotteet as $kentta => $arvo) {$syotteet[$kentta] = "";}
-                    if ($tulos->fetch_assoc()["activated"]==="0") { 
-                        // Jos tili on aktivoimatta (eli rivin activated-kentässä on arvo 0):
+                    if ($tila = "aktivoimatta") { // Jos tili on aktivoimatta:
                         $sposti_kaytossa .= "<br>Tili täytyy aktivoida, jotta voit käyttää sitä.
-                            <br>Aktivointilinkki on lähetetty sähköpostiosoitteeseen.";
+                            <br>Aktivointilinkki on lähetetty sähköpostiisi.";
+                        // HUOM MITÄ JOS KÄYTTÄJÄ EI LÖYDÄ AKTIVOINTISÄHKÖPOSTIA
                     } else { // Jos tili on aktivoitu:
                         $sposti_kaytossa .= "<br>Siirry kirjautumiseen
                             <a href=$polku.'kayttajahallinta/login.php'>tästä</a>.";
                     }
                     $sposti_kaytossa = lomaketagit($sposti_kaytossa);
-                // Jos sähköpostiosoite on käytettävissä, tarkistetaan sen muoto:
+                // Jos osoitteella ei löydy käyttäjätiliä, tarkistetaan syötteen muoto:
                 } elseif (!filter_var($syotteet["sposti"], FILTER_VALIDATE_EMAIL)) {
                     $voi_lahettaa = false;
-                    $sposti_epakelpo = lomaketagit("Tarkista sähköpostiosoite.");
+                    $sposti_epakelpo = lomaketagit("Tarkista antamasi sähköpostiosoite.");
                 }
             } else { // Jos sposti-kenttä on tyhjä:
                 $voi_lahettaa = false;
@@ -130,27 +172,14 @@
         if (isset($uusi_id)) {
             // Lisätään sähköpostiosoite sähköpostilistalle, jos valinta on tehty:
             if ($syotteet["uutiskirje"] == "kyllä") {
-                // Tarkistetaan ensin, onko osoite jo listalla:
-                $tarkistuslauseke = $yhteys->prepare("SELECT * FROM email_list WHERE email = ?");
-                $tarkistuslauseke->bind_param("s",$syotteet["sposti"]);
-                $tarkistuslauseke->execute();
-                $tulos = $tarkistuslauseke->get_result();
-                if ($tulos->num_rows == 0) { // Jos osoite ei ole listalla:
-                    $uutislauseke = $yhteys->prepare("INSERT INTO email_list (email) VALUES (?)");
-                    $uutislauseke->bind_param("s", $syotteet["sposti"]);
-                    try {$uutislauseke->execute();} // Yritetään lisäystä
-                    catch(Exception $voivoi) { // Jos listalle lisäys ei onnistunut:
-                        $vahvistus_lahettamatta = "Valitettavasti liittyminen
-                            sähköpostilistalle ei onnistunut. Yritä listalle liittymistä
-                            uudelleen <a href='$polku/ota_yhteytta.php'>tätä kautta</a>.";
-                        ///// HUOM TÄHÄN MYÖS MAHDOLLISUUS SUORAAN YRITTÄÄ UUDESTAAN
-                        ///// HUOM UUTISTILAUKSEN VAHVISTUSSÄHKÖPOSTI MYÖS LÄHETETTÄVÄ
-                        $vahvistus_lahettamatta = lomaketagit($vahvistus_lahettamatta);
-                        if (defined("DEBUG") and DEBUG) {
-                            echo "Poikkeus: ".$voivoi->getCode().": ".$voivoi->getMessage().
-                            "<br>rivi: ".$voivoi->getLine().", tiedosto: ".$voivoi->getFile()."<br>";
-                        }
-                    }
+                $lisays_sujui = lisaa_listalle($syotteet["sposti"]);
+                if (!$lisays_sujui) { // Jos listalle lisäys ei onnistunut:
+                    $vahvistus_lahettamatta = "Valitettavasti liittyminen
+                        sähköpostilistalle ei onnistunut. Yritä listalle liittymistä
+                        uudelleen <a href='$polku/ota_yhteytta.php'>tätä kautta</a>.";
+                    ///// HUOM TÄHÄN MYÖS MAHDOLLISUUS SUORAAN YRITTÄÄ UUDESTAAN
+                    ///// HUOM UUTISTILAUKSEN VAHVISTUSSÄHKÖPOSTI MYÖS LÄHETETTÄVÄ
+                    $vahvistus_lahettamatta = lomaketagit($vahvistus_lahettamatta);
                 }
             }
             // Luodaan satunnainen poletti (token) aktivointia varten:
@@ -215,33 +244,74 @@
         }
     }
 
-    // Funktio, joka tarkistaa kirjautumislomakkeella annetut syötteet
+    // KIRJAUTUMISLOMAKKEEN pääfunktio, joka tarkistaa kirjautumislomakkeella annetut syötteet
     // ja jos ne ovat ok, kirjaa käyttäjän sisään:
     function tarkista_ja_kirjaudu() {
         global $yhteys, $polku; // tietokantayhteys ja juurikansion polku näkyväksi
 
         // Luodaan virheviestit (global, jotta näkyvät funktion ulkopuolelle):
-        global $tilia_ei_ole, $tili_vahvistamatta, $vaara_salasana;
-        global $sposti_puuttuu, $salasana_puuttuu;
+        global $tilia_ei_ole, $sposti_vahvistamatta, $vaara_salasana;
+        global $sposti_ei_kelpaa, $salasana_puuttuu;
 
         // Luodaan taulukko käyttäjän antamia syötteitä varten:
         global $syotteet;
         $syotteet = array("sposti"=>"","salasana"=>"","muista"=>"");
         
-        // Luodaan muuttuja, jolla seurataan, voiko kirjautumisen suorittaa:
-        $voi_kirjautua = true;
-
-        // Jos ei ole painettu Kirjaudu-nappia, ei voi kirjautua:
-        if (!isset($_POST["kirjaudu"])) {
-            $voi_kirjautua = false;
-        } else { // Jos Kirjaudu-nappia on painettu:
+        // Loput funktiosta suoritetaan vain, jos on painettu Kirjaudu-nappia:
+        if (isset($_POST["kirjaudu"])) {
             foreach ($syotteet as $kentta => $arvo) { // Siistitään syötteet:
                 if (isset($_POST[$kentta])) {
                     $uusiarvo = $yhteys->real_escape_string(strip_tags(trim($_POST[$kentta])));
                     $syotteet[$kentta] = $uusiarvo;
                 }
-            } // Sähköpostiosoitteeseen liittyvät tarkistukset:
-
+            } // Tarkistetaan, onko salasanakenttä täytetty:
+            if (empty($syotteet["salasana"])) {
+                $salasana_puuttuu = lomaketagit("Kirjoita tähän Neilikka-tilisi salasana.");
+            }
+            // Sähköpostiosoitteeseen liittyvät tarkistukset:
+            if (empty($syotteet["sposti"])) { // Jos sposti-kenttä on tyhjä:
+                $voi_kirjautua = false;
+                $sposti_ei_kelpaa = lomaketagit("Kirjoita tähän sähköpostiosoitteesi.");                
+            } elseif (!filter_var($syotteet["sposti"], FILTER_VALIDATE_EMAIL)) { 
+                // Jos sposti on syötetty, mutta ei ole kelvollinen sähköpostiosoite:
+                    $voi_kirjautua = false;
+                    $sposti_ei_kelpaa = lomaketagit("Tarkista antamasi sähköpostiosoite.");
+            } elseif (empty($salasana_puuttuu)) {
+                // Jos sposti kelpaa ja salasana on annettu, etsitään käyttäjää tietokannasta:
+                $hakutulos = hae_kayttaja($syotteet["sposti"], "user");
+                if ($hakutulos->num_rows == 0) { // Jos haulla ei löytynyt käyttäjätiliä:
+                    $tilia_ei_ole = "Antamallasi sähköpostiosoitteella ".$syotteet["sposti"].
+                        " ei löydy käyttäjätiliä.";
+                    $tilia_ei_ole = lomaketagit($tilia_ei_ole);
+                    // Tyhjennetään syötteet, jotta samat tiedot eivät täyty lomakkeelle:
+                    foreach ($syotteet as $kentta => $arvo) {$syotteet[$kentta] = "";}
+                } else { // Jos haulla löytyi käyttäjätili, tutkitaan tulokset:
+                    $tili = $hakutulos->fetch_assoc();
+                    if ($tili["activated"]==="0") { // Jos tili on aktivoimatta:
+                        $sposti_vahvistamatta = lomaketagit("Tilisi sähköpostiosoite on vahvistamatta.
+                        Sähköpostiisi on lähetetty aktivointilinkki.");
+                        // HUOM MITÄ JOS KÄYTTÄJÄ EI LÖYDÄ AKTIVOINTISÄHKÖPOSTIA?
+                    } elseif (!password_verify($syotteet["salasana"], $tili["passhash"])) {
+                        // Jos annettu salasana on väärä:
+                        $vaara_salasana = lomaketagit("Sähköpostiosoite tai salasana on väärä. 
+                            Yritä uudelleen.");
+                        // HUOM PITÄISIKÖ LASKEA VÄÄRÄT YRITYKSET JA 5 KERRAN JÄLKEEN LUKITA TILI?
+                        $syotteet["salasana"] = ""; // Tyhjennetään salasanakenttä
+                    } else { // Jos tili on aktivoitu ja salasana on oikein:
+                        if (!session_id()) {session_start();} // aloitetaan istunto, jos ei vielä ole aloitettu
+                        $_SESSION["loggedin"] = true;
+                        $_SESSION["id"] = $tili["user_id"];
+                        $_SESSION["sposti"] = $tili["email"];
+                        if (isset($_SESSION["aiottu_sivu"])) {
+                            $aiottu_sivu = $_SESSION["aiottu_sivu"];
+                            unset($_SESSION["aiottu_sivu"]);
+                            header("location: $aiottu_sivu");
+                            exit;
+                        }
+                        header("location: $polku/kayttajahallinta/omasivu.php");
+                    }
+                }
+            }
         }
     }
 
