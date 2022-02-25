@@ -19,7 +19,7 @@
             jos käyttäjä on tullut sivulle uloskirjautumisen vuoksi). -->
         <form class="header_logged_in" action="<?php echo $polku?>/kayttajahallinta/login.php" method="post">
             <?php echo "Olet kirjautuneena käyttäjänä: ".($_SESSION["sposti"] ?? "");?>
-            <input type="submit" name="ulos" value="Kirjaudu ulos">
+            <input type="submit" class="logout_nappi" name="ulos" value="Kirjaudu ulos">
         </form>
     </div>
 

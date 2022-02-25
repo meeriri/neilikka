@@ -375,7 +375,7 @@ input[type="checkbox"]:focus {border: 2px solid #FFFF00;}*/
     display: block; /* näytetään pallukka tai rasti, kun valittuna */
 }
 
-input[type="submit"] {
+input[type="submit"] :not(.logout_nappi) {
     font-size: 1em;
     font-weight: bold;
     display: block;
