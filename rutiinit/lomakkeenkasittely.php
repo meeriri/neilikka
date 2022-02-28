@@ -65,7 +65,8 @@
         global $yhteys, $polku; // tietokantayhteys ja juurikansion polku näkyväksi
 
         // Luodaan virhe- ja onnistumisviestit (global, jotta näkyvät funktion ulkopuolelle):
-        global $onnistuminen, $sposti_kaytossa, $vahvistus_lahettamatta, $vahvistus_lahetetty;
+        global $onnistuminen, $sposti_kaytossa;
+        global $vahvistus_lahettamatta, $vahvistus_lahetetty, $postituslistavirhe;
         global $sposti_puuttuu, $salasana_puuttuu, $salasana2_puuttuu, $uutiskirje_puuttuu;
         global $sposti_epakelpo, $salasana_epakelpo, $salasana2_epakelpo;
 
@@ -174,12 +175,12 @@
             if ($syotteet["uutiskirje"] == "kyllä") {
                 $lisays_sujui = lisaa_listalle($syotteet["sposti"]);
                 if (!$lisays_sujui) { // Jos listalle lisäys ei onnistunut:
-                    $vahvistus_lahettamatta = "Valitettavasti liittyminen
+                    $postituslistavirhe = "Valitettavasti liittyminen
                         sähköpostilistalle ei onnistunut. Yritä listalle liittymistä
                         uudelleen <a href='$polku/ota_yhteytta.php'>tätä kautta</a>.";
                     ///// HUOM TÄHÄN MYÖS MAHDOLLISUUS SUORAAN YRITTÄÄ UUDESTAAN
                     ///// HUOM UUTISTILAUKSEN VAHVISTUSSÄHKÖPOSTI MYÖS LÄHETETTÄVÄ
-                    $vahvistus_lahettamatta = lomaketagit($vahvistus_lahettamatta);
+                    $postituslistavirhe = lomaketagit($postituslistavirhe);
                 }
             }
             // Luodaan satunnainen poletti (token) aktivointia varten:
@@ -303,12 +304,13 @@
                         $_SESSION["id"] = $tili["user_id"];
                         $_SESSION["sposti"] = $tili["email"];
                         if (isset($_SESSION["aiottu_sivu"])) {
-                            $aiottu_sivu = $_SESSION["aiottu_sivu"];
+                            $seuraava_sivu = $_SESSION["aiottu_sivu"]."?tervetuloa=1";
+                                // GET-parametri "tervetuloa" opastaa seuraavaa sivua tulostamaan tervetulotekstin
                             unset($_SESSION["aiottu_sivu"]);
-                            header("location: $aiottu_sivu");
+                            header("location: $seuraava_sivu");
                             exit;
                         }
-                        header("location: $polku/kayttajahallinta/omasivu.php");
+                        header("location: $polku/kayttajahallinta/omasivu.php?tervetuloa=1");
                     }
                 }
             }

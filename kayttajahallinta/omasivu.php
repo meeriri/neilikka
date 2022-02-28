@@ -1,7 +1,6 @@
 <?php
     // Tarkistetaan kirjautuminen ja perustetaan istunto:
-    if (file_exists("../rutiinit/suojaus.php")) 
-        {include("../rutiinit/suojaus.php");}
+    include("../rutiinit/suojaus.php");
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +26,11 @@
 
     <main>
         <section>
+            <?php // Jos sivulle on tultu suoraan kirjautumissivulta
+                // (jolloin sivun osoitteeseen on lisätty GET-parametri "tervetuloa"):
+                if (isset($_GET["tervetuloa"])) {
+                    echo "<p class='lomake_ok'>Kirjautuminen onnistui.</p><br>";
+                }?>
             <h1>Oma sivusi</h1>
             <p class="peruskappale">
                 Täältä näet ja päivität omat tietosi Neilikan käyttäjärekisterissä.<br>

@@ -1,5 +1,3 @@
-<?php if (!session_id()) {session_start();}?>
-
 <!DOCTYPE html>
 <html lang=fi>
 
@@ -28,6 +26,11 @@
 
     <main>
         <section>
+            <?php // Tulostetaan ohjeistus, jos on yritetty mennä kirjautumatta suojatulle sivulle
+                // (tällöin suojaus.php on ohjannut login-sivulle GET-parametrilla "suojattu"):
+                if (isset($_GET["suojattu"])) {
+                    echo "<p class='lomakevirhe'>Kirjaudu ensin sisään.</p><br>";
+                }?>
             <h1>Kirjautuminen</h1>
             <p class="peruskappale">
                 Jos et ole vielä rekisteröitynyt, pääset tekemään sen 

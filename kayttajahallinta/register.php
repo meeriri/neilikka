@@ -43,6 +43,7 @@
                     echo $sposti_kaytossa;
                     echo $vahvistus_lahettamatta;
                     echo $vahvistus_lahetetty;
+                    echo $postituslistavirhe;
                 ?>
                 <div>
                     <label for="sposti">Sähköpostiosoitteesi</label><br>

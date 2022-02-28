@@ -19,7 +19,18 @@ header {
     background: #ffff00;
 }
 
-.ilmoituspalkki {padding: 1px; font-weight: bold;}
+.ilmoituspalkki {
+    padding: 1px 15px; 
+    align-items: center;
+}
+.ilmoituspalkki.header_logged_out {
+    font-weight: bold;
+    justify-content: center;
+}
+.ilmoituspalkki.header_logged_in {
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
 
 .kuva_tekstilla {
     background-image: url(./kuvat/header_karviaiset.jpg);
@@ -267,27 +278,22 @@ input[type="text"], input[type="password"], select, textarea {
     font-size: 1em;
     color: #696969;
     width: 90%;
-    border: 2px inset #ffff7A; /* 1px solid #356B09;*/
+    border: 2px inset #ffff7A;
     border-radius: 4px;
     padding: 0px 5px;
     outline: none; /* poistaa selaimen lisäämän sinisen kehyksen */
     cursor: pointer;
 }
 textarea {height: 150px; resize: none;}
-select {background-color: white; /*#FFFF7A;*/ width:calc(90% + 12px); padding: 2px;}
+select {background-color: white; width:calc(90% + 12px); padding: 2px;}
 select option {color: #696969;}
 
 /* erilainen reunus, kun hiiri on kentän päällä tai kenttä on valittuna */
 input[type="text"]:focus, input[type="password"]:focus, 
 input[type="text"]:hover, input[type="password"]:hover, 
 select:focus, textarea:focus, select:hover, textarea:hover {
-    border: 2px solid #ffff00; /*border-width: 2px;*/
+    border: 2px solid #ffff00; 
 }
-
-/* miksi nämä ei toimi??
-select option:hover {background-color:#FFFF00; color: #696969;}
-input[type="radio"]:focus {color: #356B09;} 
-input[type="checkbox"]:focus {border: 2px solid #FFFF00;}*/
 
 .radionappikysymys {
     width: 90%;
@@ -375,7 +381,7 @@ input[type="checkbox"]:focus {border: 2px solid #FFFF00;}*/
     display: block; /* näytetään pallukka tai rasti, kun valittuna */
 }
 
-input[type="submit"] :not(.logout_nappi) {
+input[type="submit"] {
     font-size: 1em;
     font-weight: bold;
     display: block;
@@ -383,12 +389,21 @@ input[type="submit"] :not(.logout_nappi) {
     padding: 3px;
     margin: 25px auto;
     cursor: pointer;
-    color: /*#696969; */ #356b09;
-    background-color: #FFFF00; /* #FFFF7A; */
+    color: #356b09;
+    background-color: #ffff00;
     border-color: #ffff7a;
     border-radius: 4px;
 }
 input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
+
+#logout_nappi {
+    font-weight: normal;
+    display: inline-block;
+    width: 100px;
+    padding: 2px;
+    margin: 3px 0px;
+    background-color: #ffff7a;
+}
 
 .lomakevirhe, .lomake_ok {
     width: 90%;
@@ -405,7 +420,7 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
 }
 .lomakevirhe {
     color: #ad0e13;
-    background-color: #ffbf99; /*#FFC5AC*/
+    background-color: #ffbf99;
     border: 1px solid #ffbf99;
 }
 .levennettava {

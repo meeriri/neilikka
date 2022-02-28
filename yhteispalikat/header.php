@@ -1,25 +1,29 @@
 <header>
     <?php
+        if (!session_id()) {session_start();}
+        // Nykyinen sivu talteen mahdollista uloskirjautumista varten:
+        $_SESSION["lahtosivu"] = htmlspecialchars($_SERVER["PHP_SELF"]);
+        
         // Yläpalkin ja navin elementtien näkyvyys, jos käyttäjä on kirjautunut:
         if (isset($_SESSION["loggedin"]) and $_SESSION["loggedin"]) {
             echo "<style>.header_logged_out {display:none;}
-                    .header_logged_in {display:block;}</style>";
+                    .header_logged_in {display:flex;}</style>";
         }
         else { // Näkyvyys toisin päin, jos käyttäjä ei ole kirjautuneena:
-            echo "<style>.header_logged_out {display:block;}
+            echo "<style>.header_logged_out {display:flex;}
                     .header_logged_in {display:none;}</style>";
         }
     ?>
 
-    <div class="ilmoituspalkki pikkuteksti">
+    <div class="ilmoituspalkki pikkuteksti header_logged_out">
         <!-- Jos käyttäjä ei ole kirjautunut, näytetään tervetulotoivotus: -->
-        <p class="header_logged_out">Tervetuloa uudistuneelle sivustollemme!</p>
-        <!-- Jos käyttäjä on kirjautunut, näytetään käyttäjätunnus sekä uloskirjautumisnappi.
-            Nappi ohjaa kirjautumissivulle (joka puolestaan osaa huomioida, 
-            jos käyttäjä on tullut sivulle uloskirjautumisen vuoksi). -->
-        <form class="header_logged_in" action="<?php echo $polku?>/kayttajahallinta/login.php" method="post">
-            <?php echo "Olet kirjautuneena käyttäjänä: ".($_SESSION["sposti"] ?? "");?>
-            <input type="submit" class="logout_nappi" name="ulos" value="Kirjaudu ulos">
+        <p>Tervetuloa uudistuneelle sivustollemme!</p>
+    </div>
+    <div class="ilmoituspalkki pikkuteksti header_logged_in">
+        <!-- Jos käyttäjä on kirjautunut, näytetään käyttäjätunnus sekä uloskirjautumisnappi: -->
+        <p><?php echo "Olet kirjautuneena käyttäjänä: ".($_SESSION["sposti"] ?? "");?></p>
+        <form action="<?php echo $polku?>/kayttajahallinta/logout.php" method="post">
+            <input type="submit" id="logout_nappi" name="ulos" value="Kirjaudu ulos">
         </form>
     </div>
 
