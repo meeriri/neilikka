@@ -56,7 +56,7 @@
             if (defined("DEBUG") and DEBUG) {
                 echo "Virhe: ".$mail->ErrorInfo;
             }
-        } else {$tulos = true; echo "Onnistui!";}
+        } else {$tulos = true;}
 
         $mail->ClearAddresses(); // Koska on valittu SMTPKeepAlive, tyhjennetään edelliset vastaanottajat
         // $mail->ClearAttachments(); // Kuten yllä, mutta liitteille, jos niitä on
