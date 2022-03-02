@@ -13,8 +13,8 @@
             {include("../rutiinit/polku.php");}
         if (file_exists("../yhteispalikat/latauslinkit.php"))
             {include("../yhteispalikat/latauslinkit.php");}
-        if (file_exists("../rutiinit/lomakkeenkasittely.php"))
-            {include("../rutiinit/lomakkeenkasittely.php");}?>
+        if (file_exists("../rutiinit/lomake_verify.php"))
+            {include("../rutiinit/lomake_verify.php");}?>
 </head>
 
 <body>
@@ -28,25 +28,30 @@
                 // Yritetään vahvistaa sposti ja aktivoida käyttäjätili
                 // sekä tulostetaan mahdolliset virheilmoitukset:
                 vahvista_ja_aktivoi();
+                echo $yhteysvirhe;
                 echo $poletti_vanhentunut;
                 echo $jo_vahvistettu;
                 echo $vahvistaminen_ok;
                 echo $virhe_aktivoinnissa;
-                echo $aktivointivirhe_lisaohje;
+                if (isset($_GET["uusi"])) {echo "<p>Jos et saanut vahvistuslinkkiä sähköpostiisi,
+                    tilaa alta uusi.</p>";}
             
-                // Jos sähköpostivahvistuksen poletti oli vanhentunut, tulostetaan
-                // lomake, jolla käyttäjä voi tilata uuden poletin:
-                if (!empty($poletti_vanhentunut) or !empty($virhe_aktivoinnissa)) {
-                    tilaa_poletti();
+                // Jos sähköpostivahvistuksen poletti oli vanhentunut, aktivointi ei muusta syystä
+                // onnistunut tai jos sivulle on saavuttu rekisteröintisivun virheen kautta,
+                // tulostetaan lomake, jolla käyttäjä voi tilata uuden poletin:
+                if (!empty($poletti_vanhentunut) or !empty($virhe_aktivoinnissa)
+                or isset($_GET["uusi"]) or isset($_POST["tilaa_poletti"])) {
+                    tilaa_uusi_poletti(); // Yritetään tehdä polettitilaus ja muodostetaan ilmoitukset
                     echo "<br>";
-                    echo '<form action="" method="post"><fieldset>'.
+                    echo '<form action="'.$polku.'/kayttajahallinta/verify_email.php"
+                        method="post"><fieldset>'.
                         $tarkista_tilaus.$poletti_tilattu.
                         '<div><label for="sposti">Sähköpostiosoitteesi</label><br>
                         <input id="sposti" type="text" name="sposti"
                         value="'.$poletti_sp.'"></div>
                         <div><label for="salasana">Salasanasi sivustollemme</label><br>
                         <input id="salasana" type="password" name="salasana"><br></div>
-                        <input type="submit" name="tilaa_poletti" value="Tilaa poletti">
+                        <input type="submit" name="tilaa_poletti" value="Tilaa linkki">
                         </fieldset></form>';
                 }
             ?>

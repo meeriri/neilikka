@@ -13,8 +13,8 @@
             {include("../rutiinit/polku.php");}
         if (file_exists("../yhteispalikat/latauslinkit.php"))
             {include("../yhteispalikat/latauslinkit.php");}
-        if (file_exists("../rutiinit/lomakkeenkasittely.php"))
-            {include("../rutiinit/lomakkeenkasittely.php");}?>
+        if (file_exists("../rutiinit/lomake_register.php"))
+            {include("../rutiinit/lomake_register.php");}?>
 </head>
 
 <body>
@@ -27,10 +27,18 @@
             <p class="peruskappale">
                 Rekisteröitymällä voit tallentaa tuotteitamme toivelistallesi. 
             </p>
-            <p class="peruskappale">
-                Oletko jo rekisteröitynyt? Kirjaudu sisään 
-                <a href="<?php echo $polku?>/kayttajahallinta/login.php">tästä</a>.
-            </p>
+            <?php 
+                // Jos käyttäjän selaimelta on joku kirjautuneena sisään:
+                if (isset($_SESSION["loggedin"]) and $_SESSION["loggedin"]) {
+                    echo virhetagit("Olet kirjautuneena käyttäjänä ".$_SESSION["sposti"].
+                        ". Jos haluat rekisteröidä toisen käyttäjätilin, kirjaudu ensin
+                        <a href='".$polku."/rutiinit/logout.php?ulos=1'>ulos</a>.");
+                } elseif (!isset($_POST["rekisteröidy"])) { 
+                    // Jos ei olla kirjautuneena eikä lomaketta ole yritetty lähettää:
+                    echo "<p class='peruskappale'>Oletko jo rekisteröitynyt? Kirjaudu sisään 
+                        <a href='".$polku."/kayttajahallinta/login.php'>tästä</a>.</p>";
+                }
+            ?>            
         </section>
 
         <section>
@@ -40,6 +48,7 @@
                     // Tarkistetaan lomakkeen lähetys ja tulostetaan mahdolliset ilmoitukset:
                     tarkista_ja_rekisteroi();
                     echo $onnistuminen;
+                    echo $yhteysvirhe;
                     echo $sposti_kaytossa;
                     echo $vahvistus_lahettamatta;
                     echo $vahvistus_lahetetty;

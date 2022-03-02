@@ -18,6 +18,8 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
 
+    // Funktio, joka lähettää postia tunnukset.php:ssä määritellystä osoitteesta
+    // (koodi mukailee PHPMailerin GitHubin koodia):
     function posti($emailTo, $viesti, $otsikko) {
         $emailFrom = SP_TILI;
         $emailFromName = "Neilikan testitili";
@@ -57,6 +59,10 @@
                 echo "Virhe: ".$mail->ErrorInfo;
             }
         } else {$tulos = true;}
+        // Uncomment these to save your message in the 'Sent Mail' folder. Also uncomment Section 2: IMAP.
+        #if (save_mail($mail)) {
+        #    echo "Message saved!";
+        #}
 
         $mail->ClearAddresses(); // Koska on valittu SMTPKeepAlive, tyhjennetään edelliset vastaanottajat
         // $mail->ClearAttachments(); // Kuten yllä, mutta liitteille, jos niitä on
@@ -64,26 +70,43 @@
         return $tulos;
     }
 
-    // Uncomment these to save your message in the 'Sent Mail' folder.
-    #if (save_mail($mail)) {
-    #    echo "Message saved!";
-    #}
-/*Section 2: IMAP
-IMAP commands requires the PHP IMAP Extension, found at: https://php.net/manual/en/imap.setup.php
-Function to call which uses the PHP imap_*() functions to save messages: https://php.net/manual/en/book.imap.php
-You can use imap_getmailboxes($imapStream, '/imap/ssl', '*' ) to get a list of available folders or labels, this can
-be useful if you are trying to get this working on a non-Gmail IMAP server. */
-/*function save_mail($mail)
-{
-    //You can change 'Sent Mail' to any other folder or tag
-    $path = '{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail';
+    // Funktio, joka lähettää sähköpostiviestin annetun osoitteen vahvistamista varten
+    // ja palauttaa totuusarvon, onnistuiko lähetys:
+    function laheta_vahvistusviesti($sposti, $poletti) {
+        global $polku; // polku näkyväksi
+        // Muodostetaan sähköpostin otsikko ja sisältö:
+        $otsikko = "Neilikan toivelistasi on enää yhden klikkauksen päässä!";
+        $viesti = "<p>Hei!</p>
+            <p>Hienoa, että rekisteröidyit Puutarhaliike Neilikan sivustolle!<br>
+            Pääset kokoamaan toivelistaasi upeiden tuotteidemme joukosta heti, kun
+            vahvistat sähköpostiosoitteesi.</p>
+            <button><a href='$polku/kayttajahallinta/verify_email.php?token=$poletti' 
+                style='text-decoration:none; font-size:12pt; padding:3pt;'>
+                Vahvista tästä!</a></button>
+            <p>Jos linkki ei aukea painikkeesta, kopioi tämä selaimen osoiteriville:<br>
+            $polku/kayttajahallinta/verify_email.php?token=$poletti</p>
+            <p>Poletti on voimassa 30 minuuttia. Jos klikkaat linkkiä tämän jälkeen,
+            sinua pyydetään syöttämään salasanasi ja tilaamaan uusi poletti.</p>
+            <p>Tervetuloa Neilikkaan!<br>Puutarhaliike Neilikan tiimi</p>";
+        return posti($sposti, $viesti, $otsikko);
+    }
 
-    //Tell your server to open an IMAP connection using the same username and password as you used for SMTP
-    $imapStream = imap_open($path, $mail->Username, $mail->Password);
+    /*Section 2: IMAP
+    IMAP commands requires the PHP IMAP Extension, found at: https://php.net/manual/en/imap.setup.php
+    Function to call which uses the PHP imap_*() functions to save messages: https://php.net/manual/en/book.imap.php
+    You can use imap_getmailboxes($imapStream, '/imap/ssl', '*' ) to get a list of available folders or labels, this can
+    be useful if you are trying to get this working on a non-Gmail IMAP server. */
+    /*function save_mail($mail)
+    {
+        //You can change 'Sent Mail' to any other folder or tag
+        $path = '{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail';
 
-    $result = imap_append($imapStream, $path, $mail->getSentMIMEMessage());
-    imap_close($imapStream);
+        //Tell your server to open an IMAP connection using the same username and password as you used for SMTP
+        $imapStream = imap_open($path, $mail->Username, $mail->Password);
 
-    return $result;
-} */
+        $result = imap_append($imapStream, $path, $mail->getSentMIMEMessage());
+        imap_close($imapStream);
+
+        return $result;
+    } */
 ?>

@@ -1,3 +1,15 @@
+<?php
+    if (!session_id()) {session_start();}
+
+    // Jos kirjautuminen on jo voimassa, uudelleenohjataan omalle sivulle
+    // lähettäen sinne GET-parametri "kirjauduttu"
+    // (jolloin omasivu huomioi, että sinne saavuttiin tätä kautta):
+    if (isset($_SESSION["loggedin"]) and $_SESSION["loggedin"]) {
+        header("location: omasivu.php?kirjauduttu=1");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang=fi>
 
@@ -13,8 +25,8 @@
             {include("../rutiinit/polku.php");}
         if (file_exists("../yhteispalikat/latauslinkit.php"))
             {include("../yhteispalikat/latauslinkit.php");}
-        if (file_exists("../rutiinit/lomakkeenkasittely.php"))
-            {include("../rutiinit/lomakkeenkasittely.php");}
+        if (file_exists("../rutiinit/lomake_login.php"))
+            {include("../rutiinit/lomake_login.php");}
         // Tarkistetaan, onko lomake lähetetty, ja muodostetaan mahdolliset virheilmoitukset
         // (tehdään tämä ennen kuin sivulle ladataan mitään, jotta tarvittaessa voidaan uudelleenohjata): 
         tarkista_ja_kirjaudu();?>
@@ -29,11 +41,11 @@
             <?php // Tulostetaan ohjeistus, jos on yritetty mennä kirjautumatta suojatulle sivulle
                 // (tällöin suojaus.php on ohjannut login-sivulle GET-parametrilla "suojattu"):
                 if (isset($_GET["suojattu"])) {
-                    echo "<p class='lomakevirhe'>Kirjaudu ensin sisään.</p><br>";
+                    echo virhetagit("Kirjaudu ensin sisään.")."<br>";
                 }?>
             <h1>Kirjautuminen</h1>
             <p class="peruskappale">
-                Jos et ole vielä rekisteröitynyt, pääset tekemään sen 
+                Jos et ole vielä rekisteröitynyt, pääset tekemään sen
                 <a href="<?php echo $polku?>/kayttajahallinta/register.php">tästä</a>.
             </p>
         </section>
@@ -43,6 +55,7 @@
             <fieldset>
                 <?php
                     // Tulostetaan mahdolliset virheilmoitukset:
+                    echo $yhteysvirhe;
                     echo $tilia_ei_ole;
                     echo $sposti_vahvistamatta;
                     echo $vaara_salasana;

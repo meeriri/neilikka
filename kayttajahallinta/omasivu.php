@@ -17,7 +17,9 @@
         if (file_exists("../rutiinit/polku.php"))
             {include("../rutiinit/polku.php");}
         if (file_exists("../yhteispalikat/latauslinkit.php"))
-            {include("../yhteispalikat/latauslinkit.php");}?>
+            {include("../yhteispalikat/latauslinkit.php");}
+        if (file_exists("../rutiinit/lomake.php"))
+            {include("../rutiinit/lomake.php");}?>
 </head>
 
 <body>
@@ -26,11 +28,16 @@
 
     <main>
         <section>
-            <?php // Jos sivulle on tultu suoraan kirjautumissivulta
+            <?php // Jos sivulle on tultu kirjautumisen onnistuttua
                 // (jolloin sivun osoitteeseen on lisätty GET-parametri "tervetuloa"):
                 if (isset($_GET["tervetuloa"])) {
-                    echo "<p class='lomake_ok'>Kirjautuminen onnistui.</p><br>";
-                }?>
+                    echo ok_tagit("Kirjautuminen onnistui.")."<br>";
+                }
+                // Jos sivulle on tultu siksi, että on avattu login-sivu jo kirjautuneena:
+                if (isset($_GET["kirjauduttu"])) {
+                    echo ok_tagit("Olet kirjautunut käyttäjänä ".$_SESSION["sposti"].".")."<br>";
+                }
+            ?>
             <h1>Oma sivusi</h1>
             <p class="peruskappale">
                 Täältä näet ja päivität omat tietosi Neilikan käyttäjärekisterissä.<br>

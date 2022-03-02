@@ -1,7 +1,7 @@
 <?php
     if (!session_id()) {session_start();}
 
-    if (isset($_POST["ulos"])) { // Jos on klikattu uloskirjautumisnappia:
+    if (isset($_GET["ulos"])) { // Jos on klikattu uloskirjautumisnappia:
         $kohdesivu = $_SESSION["lahtosivu"]; // Haetaan sivu, jolla nappia klikattiin
         $_SESSION = array(); // Tuhotaan istuntomuuttujat
         session_destroy();

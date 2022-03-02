@@ -27,8 +27,8 @@
             {include("./rutiinit/polku.php");}
         if (file_exists("./yhteispalikat/latauslinkit.php"))
             {include("./yhteispalikat/latauslinkit.php");}
-        if (file_exists("./rutiinit/lomakkeenkasittely.php"))
-            {include("./rutiinit/lomakkeenkasittely.php");}?>
+        if (file_exists("./rutiinit/lomake_yhteydenotto.php"))
+            {include("./rutiinit/lomake_yhteydenotto.php");}?>
 </head>
 
 <body>

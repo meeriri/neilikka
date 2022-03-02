@@ -22,7 +22,7 @@
     <div class="ilmoituspalkki pikkuteksti header_logged_in">
         <!-- Jos käyttäjä on kirjautunut, näytetään käyttäjätunnus sekä uloskirjautumisnappi: -->
         <p><?php echo "Olet kirjautuneena käyttäjänä: ".($_SESSION["sposti"] ?? "");?></p>
-        <form action="<?php echo $polku?>/kayttajahallinta/logout.php" method="post">
+        <form action="<?php echo $polku?>/rutiinit/logout.php" method="get">
             <input type="submit" id="logout_nappi" name="ulos" value="Kirjaudu ulos">
         </form>
     </div>
