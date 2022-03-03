@@ -104,12 +104,13 @@ header {
 /* muotoillaan mobiilinäytön valikko, 
    joka tulee esille hampurilaisikonia klikattaessa */
 .paavalikko {
-    display: none;
+    display: none; /* ilman klikkausta ei näkyvillä */
     margin-top: 50px; /* jätetään tilaa, jotta etusivulinkki näkyy */
     float: right;
-    position: absolute; /* kivempi leveällä näytöllä kuin open käyttämä "fixed" */
+    position: absolute; /* vaihtoehto "fixed" -> säädettävä hieman elementtien sijainteja */
     width: 100%;
     background: #ffff00;
+    z-index: 2; /* tarvitaan, jotta itsetehtyjen radionappien ja checkboxien säiliöt eivät näy pudotusvalikon päällä */
 }
 
 .paavalikko li {list-style: none;} /* luettelomerkit pois valikosta*/
@@ -223,28 +224,29 @@ h1 {
     margin: 10px 10vw 10px 10vw;
 }
 
+article {
+    margin-bottom: 15px;
+    background-color: #ffff7a;
+}
+article .pikkuteksti {font-weight: bold;}
+
 .uutinen {
     margin-left: 10vw;
     margin-right: 10vw;
-    margin-bottom: 15px;
     padding: 15px;
-    border: none;
-    background-color: #ffff00;
 }
 
 .myymalakortti {
     display: flex;
     justify-content: center;
     align-items: center;
-    /*border: 3px solid #356B09;*/
-    margin-bottom: 15px;
-    background-color: #ffff00; 
+    margin-left: 2.5vw;
+    margin-right: 2.5vw;
+    padding: 2.5vw;
 }
 .myymalakortti address {margin:2.5vw;}
 
-article .pikkuteksti {font-weight: bold;}
-
-article img {
+.myymalakortti img {
     float: left;
     height:250px;
     width:auto;
@@ -274,7 +276,8 @@ label {
     cursor: pointer;
 }
 
-input[type="text"], input[type="password"], select, textarea {
+input[type="text"], input[type="password"], input[type="email"], 
+select, textarea {
     font-size: 1em;
     color: #696969;
     width: 90%;
@@ -289,8 +292,8 @@ select {background-color: white; width:calc(90% + 12px); padding: 2px;}
 select option {color: #696969;}
 
 /* erilainen reunus, kun hiiri on kentän päällä tai kenttä on valittuna */
-input[type="text"]:focus, input[type="password"]:focus, 
-input[type="text"]:hover, input[type="password"]:hover, 
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+input[type="text"]:hover, input[type="password"]:hover, input[type="email"]:hover,
 select:focus, textarea:focus, select:hover, textarea:hover {
     border: 2px solid #ffff00; 
 }
@@ -313,7 +316,7 @@ select:focus, textarea:focus, select:hover, textarea:hover {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;    
+    user-select: none;
 }
 .radionappisailio input, .checkbox_sailio input { /* piilotetaan default-radionappi ja -checkbox */
     position: absolute;
@@ -330,17 +333,15 @@ select:focus, textarea:focus, select:hover, textarea:hover {
     border: 2px inset #FFFF7A;
 }
 .oma_radionappi { /* muotoillaan oma radionappi tarkemmin */
-    left: 25%;
+    left: calc(50% - 88px); /* 88px liittyy nappitekstin leveyteen register-sivulla */
     top: -5px;
     border-radius: 50%; 
 }
 .oma_checkbox { /* muotoillaan oma checkbox tarkemmin */
-    left: 10%;
+    left: calc(50% - 45px;); /* 45px liittyy boksitekstin leveyteen login- ja yhteydenottosivuilla */
     border-radius: 4px;
 }
-.keskemmalle {
-    left: 10%;
-}
+
 .radionappisailio:hover .oma_radionappi, 
 .checkbox_sailio:hover .oma_checkbox { /* kun kursori labelilla */
     border: 2px solid #FFFF00;
@@ -374,7 +375,7 @@ select:focus, textarea:focus, select:hover, textarea:hover {
     border-width: 0 3px 3px 0; /* reunoista näkyy vain kaksi */
     -webkit-transform: rotate(45deg); /* lopuksi laatikko käännetään */
     -ms-transform: rotate(45deg);
-    transform: rotate(45deg);    
+    transform: rota te(45deg);    
 }
 .radionappisailio input:checked ~ .oma_radionappi:after,
 .checkbox_sailio input:checked ~ .oma_checkbox:after {
@@ -433,13 +434,11 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
 /* ///////////////////////////////////////////////////////////////////////// */
 /* RESPONSIIVISUUSHOMMAT ALKAVAT TÄSTÄ (paitsi navigointipalkki ylempänä jo) */
 @media screen and (min-width:450px) {
-    /* myymäläkorttien kuvat näkyviin: */
-    .myymalakortti img {display:block;}
+    .myymalakortti img {display:block;} /* myymäläkorttien kuvat näkyviin */
     /* kiinnitetään lomakkeen kenttien leveys: */
-    label, input[type="text"], input[type="password"], textarea,
-        .radionappikysymys, .lomakevirhe, .lomake_ok {width: 360px;}
+    label, input[type="text"], input[type="password"], input[type="email"], 
+        textarea, .radionappikysymys, .lomakevirhe, .lomake_ok {width: 360px;}
     select {width: 372px;}
-    .keskemmalle {left: 20%;}
     fieldset {padding: 10px 20px; margin: 0px auto 20px auto;}
 } 
 
@@ -450,8 +449,7 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
 } 
  
 @media screen and (min-width:730px) {
-    .myymalakortti {margin-left: auto; margin-right: auto; width: 600px;}
-    .keskemmalle {left: 21%;}
+    .myymalakortti {margin-left: auto; margin-right: auto; width: 570px;}
 }
 
 @media screen and (min-width:900px) {
@@ -460,11 +458,11 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
     .kuva_tekstilla {height: 250px;}
     .uutinen, .peruskappale {margin-left: 15vw; margin-right: 15vw;}
     .myymalakortti {width: 650px;}
-    article img {height: 275px;}
-    label, input[type="text"], input[type="password"], textarea,
-        .radionappikysymys, .lomakevirhe, .lomake_ok {width: 400px;}
+    .myymalakortti img {height: 275px;}
+    label, input[type="text"], input[type="password"], input[type="email"],
+        textarea, .radionappikysymys, .lomakevirhe, .lomake_ok {width: 400px;}
     select {width: 412px;}
-    .keskemmalle {left: 22%;}
+    .oma_radionappi {left: 100px;}
     footer .fa {font-size: 30px; padding: 7px; width: 30px;}
 }
 @media screen and (min-width:1150px) {
@@ -473,10 +471,10 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
     .kuva_tekstilla {height: 300px;}
     .uutinen, .peruskappale {margin-left: 20vw; margin-right: 20vw;}
     .myymalakortti {width: 700px;}
-    article img {height: 300px;}
-    label, input[type="text"], input[type="password"], textarea,
-        .radionappikysymys, .lomakevirhe, .lomake_ok {width: 440px;}
+    .myymalakortti img {height: 300px;}
+    label, input[type="text"], input[type="password"], input[type="email"],
+        textarea, .radionappikysymys, .lomakevirhe, .lomake_ok {width: 440px;}
     select {width: 452px;}
-    .keskemmalle {left: 23%;}
+    .oma_radionappi {left: 120px;}
 }
 

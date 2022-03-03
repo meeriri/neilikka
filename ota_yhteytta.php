@@ -81,7 +81,8 @@
                         <input type="checkbox" id="tilaus" name="tilaus" value="kyllä" 
                             <?php echo naytaRasti("tilaus","kyllä")?>>
                         <span class="oma_checkbox"></span>
-                        Tilaan samalla Neilikan uutiskirjeen.<br>
+                        &emsp;&emsp;Kyllä kiitos,<br>
+                        tilaan samalla Neilikan uutiskirjeen.<br>
                         Kirjeessä kerrotaan uutuuksista ja ajankohtaisista tarjouksista.
                         Tilauksen voi perua milloin tahansa.
                     </label>

@@ -32,7 +32,7 @@
         <section>
             <article class="myymalakortti">
                 <img src="./kuvat/pexels-daria-shevtsova-709824.jpg" 
-                    alt="Amina Filkinsin tyttö puutarhamyymälässä">
+                    alt="Daria Shevtsovan kuva puutarhamyymälästä">
                 <address><h2>Puutarhaliike Neilikka, Helsinki</h2>
                     Fabianinkatu 42<br>
                     00100 Helsinki<br>
@@ -44,7 +44,7 @@
             </article>
             <article class="myymalakortti">
                 <img src="./kuvat/pexels-daria-shevtsova-709824.jpg" 
-                    alt="Amina Filkinsin tyttö puutarhamyymälässä">
+                    alt="Daria Shevtsovan kuva puutarhamyymälästä">
                 <address><h2>Puutarhaliike Neilikka, Espoo</h2>
                     Kivenlahdentie 10<br>
                     01234 Espoo<br>

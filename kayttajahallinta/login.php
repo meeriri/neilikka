@@ -42,9 +42,14 @@
                 // (tällöin suojaus.php on ohjannut login-sivulle GET-parametrilla "suojattu"):
                 if (isset($_GET["suojattu"])) {
                     echo virhetagit("Kirjaudu ensin sisään.")."<br>";
-                }?>
+                }
+                // Tulostetaan ohjeistus, jos sivulle on tultu uloskirjautumisen jälkeen suojatulta sivulta:
+                if (isset($_GET["logout"])) {
+                    echo ok_tagit("Olet kirjautunut ulos.")."<br>";
+                }
+                ?>
             <h1>Kirjautuminen</h1>
-            <p class="peruskappale">
+            <p class="lomake_ok">
                 Jos et ole vielä rekisteröitynyt, pääset tekemään sen
                 <a href="<?php echo $polku?>/kayttajahallinta/register.php">tästä</a>.
             </p>
@@ -62,7 +67,7 @@
                 ?>
                 <div>
                     <label for="sposti">Sähköpostiosoitteesi</label><br>
-                    <input id="sposti" type="text" name="sposti"
+                    <input id="sposti" type="email" name="sposti"
                         <?php echo "value='".$syotteet["sposti"]."'";?>>
                     <?php echo $sposti_ei_kelpaa; // Tulostetaan mahdollinen virheilmoitus ?>
                 </div>
@@ -76,10 +81,11 @@
                     <label for="muista" class="checkbox_sailio">
                         <input type="checkbox" id="muista" name="muista" value="kyllä" 
                             <?php if ($syotteet["muista"]=="kyllä") {echo "checked='checked'";}?>>
-                        &emsp;&emsp;&ensp;<span class="oma_checkbox keskemmalle"></span>
-                        Muista tiedot 30 päivän ajan.<br>
-                        <span class="pikkuteksti">Jotta muistaminen olisi mahdollista, asennamme
-                            koneellesi evästeen.</span>
+                        <span class="oma_checkbox keskemmalle"></span>
+                        &emsp;&emsp;Muista tiedot.<br>
+                        <span class="pikkuteksti">Jos rastit tämän, asetamme selaimellesi evästeen,
+                            jonka ansiosta selain muistaa kirjautumisesi 30 päivän ajan. Evästettä
+                            ei käytetä muuhun tarkoitukseen.</span>
                     </label>
                 </div>
                 <input type="submit" name="kirjaudu" value="Kirjaudu">

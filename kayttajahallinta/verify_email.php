@@ -47,7 +47,7 @@
                         method="post"><fieldset>'.
                         $tarkista_tilaus.$poletti_tilattu.
                         '<div><label for="sposti">Sähköpostiosoitteesi</label><br>
-                        <input id="sposti" type="text" name="sposti"
+                        <input id="sposti" type="email" name="sposti"
                         value="'.$poletti_sp.'"></div>
                         <div><label for="salasana">Salasanasi sivustollemme</label><br>
                         <input id="salasana" type="password" name="salasana"><br></div>

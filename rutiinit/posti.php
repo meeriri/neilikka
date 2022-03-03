@@ -85,8 +85,8 @@
                 Vahvista tästä!</a></button>
             <p>Jos linkki ei aukea painikkeesta, kopioi tämä selaimen osoiteriville:<br>
             $polku/kayttajahallinta/verify_email.php?token=$poletti</p>
-            <p>Poletti on voimassa 30 minuuttia. Jos klikkaat linkkiä tämän jälkeen,
-            sinua pyydetään syöttämään salasanasi ja tilaamaan uusi poletti.</p>
+            <p>Linkki on voimassa 30 minuuttia. Jos klikkaat linkkiä tämän jälkeen,
+            sinua pyydetään syöttämään salasanasi ja tilaamaan uusi.</p>
             <p>Tervetuloa Neilikkaan!<br>Puutarhaliike Neilikan tiimi</p>";
         return posti($sposti, $viesti, $otsikko);
     }

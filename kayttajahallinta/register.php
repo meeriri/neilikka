@@ -35,8 +35,8 @@
                         <a href='".$polku."/rutiinit/logout.php?ulos=1'>ulos</a>.");
                 } elseif (!isset($_POST["rekisteröidy"])) { 
                     // Jos ei olla kirjautuneena eikä lomaketta ole yritetty lähettää:
-                    echo "<p class='peruskappale'>Oletko jo rekisteröitynyt? Kirjaudu sisään 
-                        <a href='".$polku."/kayttajahallinta/login.php'>tästä</a>.</p>";
+                    echo ok_tagit("Oletko jo rekisteröitynyt? Kirjaudu sisään 
+                        <a href='".$polku."/kayttajahallinta/login.php'>tästä</a>.");
                 }
             ?>            
         </section>
@@ -56,7 +56,7 @@
                 ?>
                 <div>
                     <label for="sposti">Sähköpostiosoitteesi</label><br>
-                    <input id="sposti" type="text" name="sposti"
+                    <input id="sposti" type="email" name="sposti"
                         <?php echo "value='".$syotteet["sposti"]."'";?>>
                     <?php // Tulostetaan mahdolliset virheilmoitukset:
                         echo $sposti_puuttuu;
