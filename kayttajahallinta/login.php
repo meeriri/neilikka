@@ -81,8 +81,8 @@
                     <label for="muista" class="checkbox_sailio">
                         <input type="checkbox" id="muista" name="muista" value="kyllä" 
                             <?php if ($syotteet["muista"]=="kyllä") {echo "checked='checked'";}?>>
-                        <span class="oma_checkbox keskemmalle"></span>
-                        &emsp;&emsp;Muista tiedot.<br>
+                        <span class="oma_checkbox"></span>
+                        &emsp;&emsp;&ensp;Muista tiedot.<br>
                         <span class="pikkuteksti">Jos rastit tämän, asetamme selaimellesi evästeen,
                             jonka ansiosta selain muistaa kirjautumisesi 30 päivän ajan. Evästettä
                             ei käytetä muuhun tarkoitukseen.</span>

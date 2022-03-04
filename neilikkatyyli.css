@@ -29,7 +29,7 @@ header {
 }
 .ilmoituspalkki.header_logged_in {
     flex-flow: row wrap;
-    justify-content: space-between;
+    justify-content: center; /* ei .ilmoituspalkkiin, koska isoilla näytöillä vain tällä eri arvo */
 }
 
 .kuva_tekstilla {
@@ -132,7 +132,7 @@ header {
 #piilonappi:checked ~ nav .paavalikko {display:block;}
 
 /* näytetään päätason valikko vaakarivillä, jos näyttö on tarpeeksi iso */
-@media screen and (min-width:670px) {
+@media screen and (min-width:700px) {
     .paavalikko  {
         left: auto;
         margin-top: 0px; /* nyt ei tarvita yläpuolelle tilaa etusivulinkille */
@@ -333,12 +333,12 @@ select:focus, textarea:focus, select:hover, textarea:hover {
     border: 2px inset #FFFF7A;
 }
 .oma_radionappi { /* muotoillaan oma radionappi tarkemmin */
-    left: calc(50% - 88px); /* 88px liittyy nappitekstin leveyteen register-sivulla */
+    left: calc(50% - 95px); /* 95px liittyy nappitekstin leveyteen register-sivulla */
     top: -5px;
     border-radius: 50%; 
 }
 .oma_checkbox { /* muotoillaan oma checkbox tarkemmin */
-    left: calc(50% - 45px;); /* 45px liittyy boksitekstin leveyteen login- ja yhteydenottosivuilla */
+    left: calc(50% - 55px); /* 55px liittyy boksitekstin leveyteen login- ja yhteydenottosivuilla */
     border-radius: 4px;
 }
 
@@ -399,8 +399,7 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
 
 #logout_nappi {
     font-weight: normal;
-    display: inline-block;
-    width: 100px;
+    width: 90px;
     padding: 2px;
     margin: 3px 0px;
     background-color: #ffff7a;
@@ -450,6 +449,7 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
  
 @media screen and (min-width:730px) {
     .myymalakortti {margin-left: auto; margin-right: auto; width: 570px;}
+    .ilmoituspalkki.header_logged_in {justify-content: flex-end;}
 }
 
 @media screen and (min-width:900px) {
@@ -462,7 +462,8 @@ input[type="submit"]:hover {background-color: #356b09; color: #FFFF00}
     label, input[type="text"], input[type="password"], input[type="email"],
         textarea, .radionappikysymys, .lomakevirhe, .lomake_ok {width: 400px;}
     select {width: 412px;}
-    .oma_radionappi {left: 100px;}
+    .oma_radionappi {left: 90px;}
+    #logout_nappi {width: 100px;}
     footer .fa {font-size: 30px; padding: 7px; width: 30px;}
 }
 @media screen and (min-width:1150px) {
