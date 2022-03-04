@@ -8,12 +8,12 @@
         exit;
     }
     // Haetaan PHPMailerin luokat:
-    if (file_exists(dirname(__DIR__,1)."/PHPMailer/Exception.php"))
-        {include(dirname(__DIR__,1)."/PHPMailer/Exception.php");}
-    if (file_exists(dirname(__DIR__,1)."/PHPMailer/PHPMailer.php"))
-        {include(dirname(__DIR__,1)."/PHPMailer/PHPMailer.php");}
-    if (file_exists(dirname(__DIR__,1)."/PHPMailer/SMTP.php"))
-        {include(dirname(__DIR__,1)."/PHPMailer/SMTP.php");}
+    if (file_exists(dirname(__DIR__,1)."/rutiinit/PHPMailer/Exception.php"))
+        {include(dirname(__DIR__,1)."/rutiinit/PHPMailer/Exception.php");}
+    if (file_exists(dirname(__DIR__,1)."/rutiinit/PHPMailer/PHPMailer.php"))
+        {include(dirname(__DIR__,1)."/rutiinit/PHPMailer/PHPMailer.php");}
+    if (file_exists(dirname(__DIR__,1)."/rutiinit/PHPMailer/SMTP.php"))
+        {include(dirname(__DIR__,1)."/rutiinit/PHPMailer/SMTP.php");}
 
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;

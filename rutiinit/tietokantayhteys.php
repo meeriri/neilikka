@@ -7,7 +7,6 @@
         exit;
     }
     // Funktio, joka luo yhteyden tietokantaan:
-    // (DEBUG-jutun voi jättää poiskin, kunhan toimii)
     function db_yhteys() {
         // Tallennetaan yhteys staattiseen muuttujaan, jolloin samaa yhteyttä
         // ei tarvitse asettaa kuin kerran:
@@ -26,6 +25,11 @@
             }
         } // Jos ei tullut yhteysvirhettä:
         return $yhteys;
+    }
+
+    function sulje_yhteys() {
+        global $yhteys;
+        $yhteys->close();
     }
 
     // Apufunktio, joka etsii annettua sähköpostiosoitetta annetusta tietokannan taulusta

@@ -62,5 +62,5 @@
         {include("../yhteispalikat/footer.php");}?>
 
 </body>
-
+<?php sulje_yhteys(); ?>
 </html>
